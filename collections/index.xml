@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Collections - 合集 - NERV_Blog</title>
+    <link>https://MostlyHarmlessxyz.github.io/collections/</link>
+    <description>NERV_Blog</description>
+    <generator>Hugo 0.139.3 &amp; FixIt v0.3.16-f66dc32e</generator>
+    <language>zh-CN</language>
+    <managingEditor>geek520170@gmail.com (Mostly_Harmless)</managingEditor>
+    <webMaster>geek520170@gmail.com (Mostly_Harmless)</webMaster>
+    <lastBuildDate></lastBuildDate>
+    <atom:link href="https://MostlyHarmlessxyz.github.io/collections/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>
