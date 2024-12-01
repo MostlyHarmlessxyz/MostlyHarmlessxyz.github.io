@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>MIT6.006 - NERV_Blog</title><meta name="author" content="Mostly_Harmless">
+<meta name="description" content="Hashing 在现有的模型(有诸多限制)下执行find的时间不会低于 logN。 证明：利用 comparison model(比较模型) -&gt; =, &lt;, &gt;, &lt;=, &gt;= 其就是将待处理的数据视为黑箱，处理时不直接接触数据，而是比较两者所关联的Key。
+"><meta name="keywords" content='231, 172, 148, 232, 174, 176'>
+  <meta itemprop="name" content="MIT6.006">
+  <meta itemprop="description" content="Hashing 在现有的模型(有诸多限制)下执行find的时间不会低于 logN。 证明：利用 comparison model(比较模型) -&gt; =, &lt;, &gt;, &lt;=, &gt;= 其就是将待处理的数据视为黑箱，处理时不直接接触数据，而是比较两者所关联的Key。">
+  <meta itemprop="datePublished" content="2024-03-05T11:31:11+00:00">
+  <meta itemprop="dateModified" content="2024-03-05T11:31:11+00:00">
+  <meta itemprop="wordCount" content="3183">
+  <meta itemprop="image" content="https://xyzyx.me/logo.png">
+  <meta itemprop="keywords" content="笔记"><meta property="og:url" content="https://xyzyx.me/posts/mit6.006/">
+  <meta property="og:site_name" content="NERV_Blog">
+  <meta property="og:title" content="MIT6.006">
+  <meta property="og:description" content="Hashing 在现有的模型(有诸多限制)下执行find的时间不会低于 logN。 证明：利用 comparison model(比较模型) -&gt; =, &lt;, &gt;, &lt;=, &gt;= 其就是将待处理的数据视为黑箱，处理时不直接接触数据，而是比较两者所关联的Key。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-03-05T11:31:11+00:00">
+    <meta property="article:modified_time" content="2024-03-05T11:31:11+00:00">
+    <meta property="article:tag" content="笔记">
+    <meta property="og:image" content="https://xyzyx.me/logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://xyzyx.me/logo.png">
+  <meta name="twitter:title" content="MIT6.006">
+  <meta name="twitter:description" content="Hashing 在现有的模型(有诸多限制)下执行find的时间不会低于 logN。 证明：利用 comparison model(比较模型) -&gt; =, &lt;, &gt;, &lt;=, &gt;= 其就是将待处理的数据视为黑箱，处理时不直接接触数据，而是比较两者所关联的Key。">
+<meta name="application-name" content="NERV_Blog">
+<meta name="apple-mobile-web-app-title" content="NERV_Blog"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/favicon.svg"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="https://xyzyx.me/posts/mit6.006/" title="MIT6.006 - NERV_Blog" /><link rel="prev" type="text/html" href="https://xyzyx.me/posts/test/" title="test" /><link rel="next" type="text/html" href="https://xyzyx.me/posts/mit6.006/" title="MIT6.006" /><link rel="stylesheet" href="/css/style.min.999fc44987aa81959766023190aed3b84fc2e373f70cb60d0bf85ba5d7d93d79.css" integrity="sha256-mZ/ESYeqgZWXZgIxkK7TuE/C43P3DLYNC/hbpdfZPXk="><link rel="preload" href="/lib/fontawesome-free/all.min.320d572dfb844e7152480b7b62374236c4896ccca3ac9d69bb03f3bc2034acb8.css" integrity="sha256-Mg1XLfuETnFSSAt7YjdCNsSJbMyjrJ1puwPzvCA0rLg=" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.320d572dfb844e7152480b7b62374236c4896ccca3ac9d69bb03f3bc2034acb8.css" integrity="sha256-Mg1XLfuETnFSSAt7YjdCNsSJbMyjrJ1puwPzvCA0rLg="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "MIT6.006",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/xyzyx.me\/posts\/mit6.006\/"
+    },"image": ["https:\/\/xyzyx.me\/favicon.ico"],"genre": "posts","keywords": "231, 172, 148, 232, 174, 176","wordcount":  3183 ,
+    "url": "https:\/\/xyzyx.me\/posts\/mit6.006\/","datePublished": "2024-03-05T11:31:11+00:00","dateModified": "2024-03-05T11:31:11+00:00","publisher": {
+      "@type": "Organization",
+      "name": "Leehow","logo": "https:\/\/xyzyx.me\/logo.png"},"author": {
+        "@type": "Person",
+        "name": "Mostly_Harmless"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.15fc6d693c4ea1331dfdbe98e8c76402340195b0a3b4047378cec39b7c827bfa.js" integrity="sha256-FfxtaTxOoTMd/b6Y6MdkAjQBlbCjtARzeM7Dm3yCe/o="></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="NERV_Blog"><img loading="lazy" src="/logo.png" alt="NERV_Blog" data-title="NERV_Blog" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">NERV_Blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/posts/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 文章</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/"><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="NERV_Blog"><img loading="lazy" src="/logo.png" alt="NERV_Blog" data-title="NERV_Blog" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">NERV_Blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/posts/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 文章</a></li><li class="menu-item"><a class="menu-link" href="/categories/"><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>MIT6.006</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="https://cn.gravatar.com/avatar/9e11a09d485e47de4b57e3faaf16715d?s=32&amp;d=identicon" alt="Mostly_Harmless" data-title="Mostly_Harmless" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;Mostly_Harmless</span></span></div><div class="post-meta-line"><span title="发布于 2024-03-05 11:31:11"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-03-05">2024-03-05</time></span>&nbsp;<span title="3183 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 3200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 7 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#daadirect-access-array-sort">DAA(Direct Access Array) Sort</a></li>
+    <li><a href="#counting-sort">Counting Sort</a></li>
+    <li><a href="#radix-sort">Radix Sort</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#什么是二叉树">什么是二叉树？</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition warning open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-exclamation-triangle fa-fw" aria-hidden="true"></i>警告<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2024-03-05，文中内容可能已过时。</div>
+      </div>
+    </div><h2 id="hashing" class="heading-element"><span>Hashing</span>
+  <a href="#hashing" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>在现有的模型(有诸多限制)下执行find的时间不会低于 <code>logN</code>。
+证明：利用 <code>comparison model(比较模型)</code> -&gt; =, &lt;, &gt;, &lt;=, &gt;= 其就是将待处理的数据视为黑箱，处理时不直接接触数据，而是比较两者所关联的Key。</p>
+<p>比较模型的一个例子：决策树。来到某个节点，进行某种比较操作，如果是True，则xxxxx，如果是False，则xxxxx……继续接下来的计算操作，直到来到<strong>这棵树的叶子节点</strong>(意味着接下来没有比较操作了) 树内的每一个节点都是比较操作，但是在叶子节点，意味着我得停止现在的计算操作。</p>
+<p>那么叶子节点的数量代表着什么呢？其代表<strong>可能的结果数</strong>。对于一个合格的比较搜索算法而言，我们需要一个额外的叶子节点，来代表<strong>无结果/异常情况/给定Key对应的item不在Set中</strong>，也就是说这里至少需要 <code>n+1</code>个叶子节点。</p>
+<p>此时，我们可以得到：这个算法的<strong>比较次数</strong>就是<strong>这棵树的最小高度(平衡二叉树-&gt;logN)</strong>。我们考虑最坏的情况下，我们必须从Root走到Leaf，那条路径就是<strong>最长路径</strong>。</p>
+<p>如果我们想更快，怎么办？ 现实中，如果给定的父节点下的子节点数是一个常数(常数因子)，只要节点数是被常数限制的，那么这个效率永远最快只能达到对数级别，无法再快下去了。所以我们<strong>必须将节点数扩大到N的量级</strong>。</p>
+<p>我们在Lec2中的RAM有提到，可以根据<strong>一个数字(内存地址)<strong>在</strong>常数恒定时间</strong>来随机访问内存中的任何位置。</p>
+<p>所以我们或许可以使用 <code>直接访问数组</code>，就是<strong>Array[key] = item</strong>，这使得我们在 <code>find</code>, <code>insert</code>, <code>delete</code>都达到了常数级的时间。其显著的缺点就是<strong>空间的极度浪费</strong>。于是我们要做一件事情: &ldquo;将一组大范围的key映射到一个小空间内&rdquo;</p>
+<p>那如何解决碰撞问题呢？<strong>在发生碰撞的Key对应的位置处，存放一个指针，指向另一数据结构Q，通过Q来存储这些发生碰撞的数据</strong>我们称Q为<strong>链</strong>，我们要选择<strong>合适的Hash算法</strong>，确保每个链都<strong>足够短</strong></p>
+<p>可以将数组的每个元素存放为一个我们自己设计的class对象，该class数据结构都会有一个指针指向另一chain数据结构和一个value字段用来存item以及一个 <code>ischain</code>的布尔字段，当有多个冲突item时，<code>ischain</code>为 <code>true</code>，然后<em>value设置一个固定的标记</em>，并将item存于chain中</p>
+<p>最简单的Hash函数就是<strong>取模</strong>，我们称之为分割法。但是这种方法在对分散度不好的input时，效果比较差。故我们在其基础上加入<strong>乱序混合处理+位操作</strong>，创建<strong>通用Hash函数</strong></p>
+<p>通用Hash函数：h(k) = ((ak+b) mod p) mod m (m是小范围的范围值，p为一个较大的素数)
+然后我们使a,b在0～p-1内随机取值(a != 0)，借此来形成一个函数的族。
+通用性：如下图，发生碰撞的概率不高于1/m，这就是衡量<strong>分布情况</strong>的指标
+<img loading="lazy" src="https://cdn.jsdelivr.net/gh/MostlyHarmlessxyz/picx-images-hosting@master/image.9dcp8iw4ad.webp" alt="image" srcset="https://cdn.jsdelivr.net/gh/MostlyHarmlessxyz/picx-images-hosting@master/image.9dcp8iw4ad.webp?size=small, https://cdn.jsdelivr.net/gh/MostlyHarmlessxyz/picx-images-hosting@master/image.9dcp8iw4ad.webp?size=medium 1.5x, https://cdn.jsdelivr.net/gh/MostlyHarmlessxyz/picx-images-hosting@master/image.9dcp8iw4ad.webp?size=large 2x" data-title="image" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="linear-sort" class="heading-element"><span>Linear Sort</span>
+  <a href="#linear-sort" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h2 id="daadirect-access-array-sort" class="heading-element"><span>DAA(Direct Access Array) Sort</span>
+  <a href="#daadirect-access-array-sort" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li>构造DAA                                       -&gt; O(u)</li>
+<li>存储所有的元素，将 <code>元素x</code>存储在 <code>index[x.key]</code>处   -&gt; n*O(1)</li>
+<li>沿着DAA，按顺序返回所有存在的元素                 -&gt; O(u)</li>
+<li>=&gt;需要O(n + u). u = θ(n) -&gt; O(n) 达成了线性排序
+这里我们假定每个 <code>item</code>都有一个 <code>key</code>，这样我们在进行 <code>Step2</code>时就可以<strong>直接进行复制</strong>。使得排序的对象不仅仅局限在整数</li>
+</ul>
+<hr>
+<p>Q：如果 u &lt; n^2， 那么按照上面的👆推算，此时效率来到了O(n^2) 如何解决？
+A：我们可以将每一个key都用 <strong>一组数字(a, b)</strong> 来表示。k=&gt;(a, b) = a * n + b. 这样我们就可以根据a与b的大小来比较key之间的大小。<code>divmod</code>这个转换是常数时间操作
+Eg： {17, 3, 24, 22, 12}, n = 5 -&gt; {(3, 2), (0, 3), (4, 4), (4, 2), (2, 2)}</p>
+<ul>
+<li>如何对这些数字进行排序？ ——<code>tuple sort</code>元组排序，类似于Excel表格排序(优先级)</li>
+<li>把上面的数组写成{32, 03, 44, 42, 22}</li>
+</ul>
+<ol>
+<li><strong>按照最高位的大小进行排序</strong> =&gt; {03, 22, 32, 44, 42}(不打乱相同最高位数字间的相对顺序，例如44与42) =&gt; 下移一位，Repeat这个过程 之后你就会发现，数组会完全变乱 {22, 32, 42, 03, 44} BAD!</li>
+<li><strong>按照最低位的大小进行排序</strong> =&gt; {32, 42, 22, 03, 44} =&gt; {03, 22, 32, 42, 44} <strong>我们需要一个stable排序算法</strong></li>
+<li>DAA？不行，因为这里有相同的元素(例如42，44 其最高位相同)</li>
+</ol>
+<p>tuples中的<strong>元素数量为k，k为常数</strong> (例如上面的例子里，k = 2) ，最终花费的时间为kn，渐进时间复杂度才为O(n).但是这里我们进行单次排序显然不能用 <code>DAA</code>来进行处理了，怎么办呢？</p>
+<h2 id="counting-sort" class="heading-element"><span>Counting Sort</span>
+  <a href="#counting-sort" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li>我们为什么不在一个key上放更多的元素？(key对应的value为一个list/vector之类的collection)</li>
+<li>我们依旧维护一个0～u-1的数组，在 <code>index k</code>处，我们存储一个指向 <code>chain</code>的 <code>pointer</code>，<strong>重要的是，我们要确保在插入时，维护并保持它们进入时的顺序，也就是需要排序算法时stable的</strong></li>
+</ul>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/MostlyHarmlessxyz/picx-images-hosting@master/image.45f9x8xa4.webp" alt="image" srcset="https://cdn.jsdelivr.net/gh/MostlyHarmlessxyz/picx-images-hosting@master/image.45f9x8xa4.webp?size=small, https://cdn.jsdelivr.net/gh/MostlyHarmlessxyz/picx-images-hosting@master/image.45f9x8xa4.webp?size=medium 1.5x, https://cdn.jsdelivr.net/gh/MostlyHarmlessxyz/picx-images-hosting@master/image.45f9x8xa4.webp?size=large 2x" data-title="image" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
+这张图里 u = n，u的大小也是可以改变的。</p>
+<h2 id="radix-sort" class="heading-element"><span>Radix Sort</span>
+  <a href="#radix-sort" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li>Radix Sort会将最大为u的整数分解为一个base的tuple， 位数为logn(u),其中n为底数</li>
+<li>随后用 <code>counting sort</code>对数字进行 <code>tuple sort</code> 从最低位到最高位</li>
+<li>时间复杂度 = n + n*logn(u) 当 <code>u &lt; n^c</code>时，这是一个线性时间算法</li>
+</ul>
+<hr>
+<p>总结(in-place即占用常数内存)</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/MostlyHarmlessxyz/picx-images-hosting@master/image.1aoqijjq8e.webp" alt="image" srcset="https://cdn.jsdelivr.net/gh/MostlyHarmlessxyz/picx-images-hosting@master/image.1aoqijjq8e.webp?size=small, https://cdn.jsdelivr.net/gh/MostlyHarmlessxyz/picx-images-hosting@master/image.1aoqijjq8e.webp?size=medium 1.5x, https://cdn.jsdelivr.net/gh/MostlyHarmlessxyz/picx-images-hosting@master/image.1aoqijjq8e.webp?size=large 2x" data-title="image" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="binary-trees-二叉树" class="heading-element"><span>Binary Trees 二叉树</span>
+  <a href="#binary-trees-%e4%ba%8c%e5%8f%89%e6%a0%91" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>有史以来最酷的数据结构</p>
+<p>将要介绍一个数据结构，它能够<strong>秒杀</strong>此前学过的所有数据结构，并能几乎做到所有事情。</p>
+<h2 id="什么是二叉树" class="heading-element"><span>什么是二叉树？</span>
+  <a href="#%e4%bb%80%e4%b9%88%e6%98%af%e4%ba%8c%e5%8f%89%e6%a0%91" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li>由若干节点构成类似于树的形状</li>
+<li>每个节点包含三个指针，分别指向<code>父节点</code>、<code>右子节点</code>、<code>左子节点</code>，节点内部存储<code>item</code></li>
+<li>没有父节点的节点称作<code>根节点 root</code>，也是<strong>唯一</strong>没有父节点的节点</li>
+<li>弥补了<strong>链表无法回溯/效率低的缺陷</strong>(通过增加指针数量)</li>
+<li>数可以分解为<strong>子树</strong>: 以x为根节点的子树由其x本身及其所有后代节点构成</li>
+<li>节点的<strong>深度(depth)</strong>：<strong>x到根节点的路径上边的数量</strong> / <strong>祖先数量</strong></li>
+<li>节点的<strong>高度(height)</strong>: 该节点向下到叶子节点<strong>最长路径的边数</strong> = <strong>以该节点为根节点的子树的最大深度</strong></li>
+<li>h = height(root) = height(tree)</li>
+<li>🌲的高度是明确的，但是其<strong>深度</strong>是不明确的</li>
+<li>每个树都有<strong>traversal order</strong>的方式，递归规则是：对于每个节点x来说，所有在X.left子树中的节点先于x，所有在X.right子树中的节点后于x</li>
+<li><strong>不要尝试去维护一个traversal order的数组</strong>，成本太大，并且复杂</li>
+<li>TODO: <strong>把我们所有关心的运算都变成O(h)类的效率</strong></li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>以下的方法除了特别说明以外，时空复杂度全部为<code>O(h)</code></p>
+</li>
+<li>
+<p>subtree_first(node):
+通过给定的节点来获得一棵子树，在这个子树的所有节点中，哪个在<code>traversal order</code>排在第一位。</p>
+<ul>
+<li>也就是<strong>最左端的节点</strong>。一直往左走：遍历条件是<strong>node=node.left</strong>，遍历到<code>NULL</code>节点时停下</li>
+<li>return node;</li>
+</ul>
+</li>
+<li>
+<p>successor(node):
+在整棵树的<code>traversal order</code>中，该node的下一个节点是谁</p>
+<ul>
+<li>if 该节点有一个右子节点，那么就是<code>subtree_first(node.right)</code></li>
+<li>else 该节点没有右子节点，那么策略就是：往上走，直到遇见第一个向左方向遍历的节点。遍历条件是<strong>node=node.parent</strong>, 遍历到<strong>node==node.parent.left</strong></li>
+<li>return node;</li>
+</ul>
+</li>
+<li>
+<p>subtree_insert_after(node, new):
+在<code>traversal order</code>中将<code>new</code>插入到<code>node</code>的后面</p>
+<ul>
+<li>if node无右子节点，直接令 <code>node.right = new</code></li>
+<li>else 令 <code>subtree_first(node.right).left = new</code> / <code>successor(node).left = new</code></li>
+</ul>
+</li>
+<li>
+<p>subtree_delete(node):</p>
+<ul>
+<li>if node为叶子节点，直接delete</li>
+<li>else
+<ul>
+<li>if node.left存在:
+<ul>
+<li>将node里的item与predecessor(node)里的item交换一下</li>
+<li>递归执行<code>subtree_delete(predecessor(node))</code></li>
+</ul>
+</li>
+<li>if node.right存在：
+<ul>
+<li>将node里的item与successor(node)里的item交换一下</li>
+<li>递归执行<code>subtree_delete(successor(node))</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>实现<code>Sequence</code>
+<ul>
+<li>只需树的<code>traversal order</code>等于sequence内部item的顺序即可</li>
+</ul>
+</li>
+<li>实现<code>Set</code> =&gt; BST 二叉搜索树/Set二叉树
+<ul>
+<li>只需树的<code>traversal order</code>等价于item.key的增长的顺序即可</li>
+<li>特性：左节点的子树中的所有节点都小于该节点，右节点的则反之</li>
+<li>find(k): <strong>二分搜索</strong></li>
+<li>find_next / find_prev 就分别对应找到那个节点的<code>successor</code>和<code>predecessor</code></li>
+</ul>
+</li>
+</ul>
+<p>Lec7</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-03-05 11:31:11">更新于 2024-03-05&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="分享到 X" data-sharer="twitter" data-url="https://xyzyx.me/posts/mit6.006/" data-title="MIT6.006" data-hashtags="231,172,148,232,174,176"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://xyzyx.me/posts/mit6.006/" data-hashtag="231"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://xyzyx.me/posts/mit6.006/" data-title="MIT6.006" data-web><i class="fa-brands fa-whatsapp fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://xyzyx.me/posts/mit6.006/" data-title="MIT6.006"><svg class="icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LINE</title><path d="M19.365 9.863c.349.0.63.285.63.631.0.345-.281.63-.63.63H17.61v1.125h1.755c.349.0.63.283.63.63.0.344-.281.629-.63.629h-2.386c-.345.0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346.0.627.285.627.63.0.349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211.0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346.0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195.0.375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345.0.63.285.63.63v4.771zm-5.741.0c0 .344-.282.629-.631.629-.345.0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346.0.628.285.628.63v4.771zm-2.466.629H4.917c-.345.0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348.0.63.285.63.63v4.141h1.756c.348.0.629.283.629.63.0.344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943.0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg></a>
+  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://xyzyx.me/posts/mit6.006/" data-title="MIT6.006"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://xyzyx.me/posts/mit6.006/" data-title="MIT6.006" data-description=""><svg class="icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Myspace</title><path d="M19.802 12.274A3.811 3.811.0 0023.62 8.47c0-2.101-1.71-3.795-3.818-3.795a3.816 3.816.0 00-3.818 3.81 3.817 3.817.0 003.818 3.811zm-8.602.705a3.43 3.43.0 003.435-3.424A3.43 3.43.0 0011.2 6.13 3.44 3.44.0 007.764 9.566 3.436 3.436.0 0011.2 13zm-7.8.635c1.71.0 3.093-1.38 3.093-3.081.0-1.704-1.395-3.084-3.105-3.084A3.086 3.086.0 00.3 10.539c0 1.7 1.387 3.078 3.095 3.078zm0 .705c-1.96.0-3.4 1.717-3.4 3.495v1.196c0 .17.138.31.31.31h6.18a.31.31.0 00.309-.31v-1.196c0-1.779-1.437-3.5-3.398-3.5zm7.8-.56c-2.18.0-3.78 1.915-3.78 3.891v1.331c0 .188.156.344.345.344h6.87a.344.344.0 00.342-.344V17.65c0-1.976-1.598-3.891-3.777-3.891zm8.602-.617c-2.422.0-4.197 2.126-4.197 4.323v1.477c0 .21.172.381.382.381h7.63c.21.0.383-.171.383-.381v-1.477c-.001-2.197-1.776-4.323-4.198-4.323z"/></svg></a>
+  <a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://xyzyx.me/posts/mit6.006/" data-title="MIT6.006" data-description=""><i class="fa-brands fa-blogger fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://xyzyx.me/posts/mit6.006/" data-title="MIT6.006"><i class="fa-brands fa-evernote fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E7%AC%94%E8%AE%B0/" class="post-tag" title="标签 - 笔记">笔记</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/test/" class="post-nav-item" rel="prev" title="Test"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Test</a><a href="/posts/mit6.006/" class="post-nav-item" rel="next" title="MIT6.006">MIT6.006<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo=""
+            data-repo-id=""
+            data-category=""
+            data-category-id=""
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.16-f66dc32e"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">Mostly_Harmless</a></span><span class="license footer-divider"><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line statistics"><span class="site-time" title='网站运行中……'><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden="true"></i><span class="run-times ms-1">网站运行中……</span></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.120f067ebd6f322339e2ccccd7e87e334d7c7ea5b2bd553f325f2ae3c3ae6fe8.css" integrity="sha256-Eg8Gfr1vMiM54szM1+h+M018fqWyvVU/Ml8q48Oub+g="><link rel="preload" href="/lib/katex/katex.min.7e5db7914b97e596a36c1abb67ccc7f174f8bb71d38c9a88c55b262ed1737f97.css" integrity="sha256-fl23kUuX5ZajbBq7Z8zH8XT4u3HTjJqIxVsmLtFzf5c=" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.7e5db7914b97e596a36c1abb67ccc7f174f8bb71d38c9a88c55b262ed1737f97.css" integrity="sha256-fl23kUuX5ZajbBq7Z8zH8XT4u3HTjJqIxVsmLtFzf5c="></noscript><script src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8=" defer></script><script src="/lib/lightgallery/lightgallery.min.7de2854e7954105f2b91ff5983749c4e3c7af51e05aae279f8a5d66994a85777.js" integrity="sha256-feKFTnlUEF8rkf9Zg3ScTjx69R4FquJ5+KXWaZSoV3c=" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4fbc3ec1878e90348b71b3594d8ef27c4f10a1a4c6d5e74948d0ee59018fd87c.js" integrity="sha256-T7w+wYeOkDSLcbNZTY7yfE8QoaTG1edJSNDuWQGP2Hw=" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.821a2adb8005511c0ad9ef6f395c1b74beacc2da194cd13a4ac43d341246e085.js" integrity="sha256-ghoq24AFURwK2e9vOVwbdL6swtoZTNE6SsQ9NBJG4IU=" defer></script><script src="/lib/sharer/sharer.min.ba5171a78670b031914e623431a33a3d73c1ea9897e552ba73bc2c2da7c777b9.js" integrity="sha256-ulFxp4ZwsDGRTmI0MaM6PXPB6piX5VK6c7wsLafHd7k=" async defer></script><script src="/lib/katex/katex.min.9f45307c5794ed247a0d095f3a62e52ef2215a67b2327203a7fd919959ae79d1.js" integrity="sha256-n0UwfFeU7SR6DQlfOmLlLvIhWmeyMnIDp/2RmVmuedE=" defer></script><script src="/lib/katex/auto-render.min.7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae.js" integrity="sha256-e1fUJ6xicGd9r42DgN7SzHMzb5FJoWe44f4NbvZmBK4=" defer></script><script src="/lib/katex/copy-tex.min.07770af90943a1de1a1010794bc78c6a7346d46d48fb63e35cc76ba76b827604.js" integrity="sha256-B3cK+QlDod4aEBB5S8eManNG1G1I+2PjXMdrp2uCdgQ=" defer></script><script src="/lib/katex/mhchem.min.f0ca03df194b8c3d6017ff455db6a0ef98857905663fa311a6cded788b15340b.js" integrity="sha256-8MoD3xlLjD1gF/9FXbag75iFeQVmP6MRps3teIsVNAs=" defer></script><script src="/lib/pangu/pangu.min.8feca3e7a71d118d82c2456d1b2cf5f1f3726c51a930627c2711b7192c8edbe2.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" defer></script><script>window.config={"autoBookmark":true,"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"enablePWA":true,"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"pangu":{"enable":true,"selector":"article"},"search":{"highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50},"siteTime":"2018-02-06T11:15:22+08:00","version":"v0.3.16-f66dc32e"};</script><script src="/js/theme.min.0daa504da430d5723626cca1801d04ac125316adbe008489bd4ebe37d7bd9a01.js" integrity="sha256-DapQTaQw1XI2JsyhgB0ErBJTFq2+AISJvU6+N9e9mgE=" defer></script></body>
+</html>

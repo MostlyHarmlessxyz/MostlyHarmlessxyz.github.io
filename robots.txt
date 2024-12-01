@@ -97,4 +97,4 @@ Disallow: /
 User-agent: ClaudeBot
 Disallow: /
 
-Sitemap: https://www.xyzyx.com/sitemap.xml
+Sitemap: https://xyzyx.me/sitemap.xml

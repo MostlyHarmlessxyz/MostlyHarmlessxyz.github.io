@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories - 分类 - NERV_Blog</title>
-    <link>https://www.xyzyx.com/categories/</link>
+    <link>https://xyzyx.me/categories/</link>
     <description>NERV_Blog</description>
     <generator>Hugo 0.139.3 &amp; FixIt v0.3.16-f66dc32e</generator>
     <language>zh-CN</language>
     <managingEditor>geek520170@gmail.com (Mostly_Harmless)</managingEditor>
     <webMaster>geek520170@gmail.com (Mostly_Harmless)</webMaster>
     <lastBuildDate></lastBuildDate>
-    <atom:link href="https://www.xyzyx.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://xyzyx.me/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

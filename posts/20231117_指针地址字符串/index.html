@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>20231117_指针，地址，字符串 - NERV_Blog</title><meta name="author" content="Mostly_Harmless">
+<meta name="description" content="写一下CS50学习过程中关于指针和地址部分的笔记和心得，其实就是在下面的注释部分，但是还是整理一下。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 #include &lt;stdio.h&gt; #include &lt;cs50.h&gt; int main(void) { int n = 50; char *s = &#34;HI!&#34;; int *p = &amp;n; // p 是一个 指向int类型变量 的地址 的 整数 8 bytes // p 用来存储地址 printf(&#34;%i\n&#34;, n); printf(&#34;%p\n&#34;, p); // %p 获取地址 &amp;n // p 存储 n的位置 OR p 指向 n的位置 printf(&#34;%i\n&#34;, *p); // 打印 p所指向的那个东西，De-reference 解引用= printf(&#34;%p\n&#34;, s); printf(&#34;%s\n&#34;, s); // %s (String) 不仅仅是打印了个变量值，更是根据你提供的地址找到了TA！ // 这块一定要理解好，printf不需要找到*s,他只需要找到s，也就是这个字符串的第一位(s[0])开始的地方，然后遍历到\0就可以了，所以 // 我们这里没有写 *s，而是直接s。因为*s对应的就是s[0]这么一个单字母了，我们不需要这个 printf(&#34;%s\n&#34;, s &#43; 1); // s &#43; 1 就是将起始位置向后移动了一位，于是只会打印出 “I!” printf(&#34;%c %c\n&#34;, s[0], *(s &#43; 0)); // %c 打印 *s 的字符 就是相当于s[0]，因为s指向的就是这个字符串起始位置，也就是H所在的位置 printf(&#34;%c %c\n&#34;, s[1], *(s &#43; 1)); printf(&#34;%c %c\n&#34;, s[2], *(s &#43; 2)); // 其实类似于 s[i] 的这种 “语法糖” ，在编译时是这样处理的： // s[i] --&gt; *(s &#43; i) // 不用在乎数据类型的问题，编译器会自动为你换算 // 所以让我们做点禁忌的事情 // printf(&#34;%c\n&#34;, *(s &#43; 20000)); // Segmentation fault (core dumped) // 访问了不该访问的内存 // strcmp 做了个什么事情呢？ // 比如 s, t 是两个strings // 我们怎么判断他们是否相等？ // i form 1 to n 判断 *(s &#43; i) ?= *(t &#43; i) // strcmp(s, t) 就是帮你干了这么件事情 // 若是相同的，return 0; // 若是字典序 s &gt; t, return 1; // 若是字典序 s &lt; t, return -1; string m = get_string(&#34;m: &#34;); string t = get_string(&#34;t: &#34;); printf(&#34;%p\n&#34;, m); printf(&#34;%p\n&#34;, t); } 其实指针部分的主要问题就是C语言对于 * 这个符号的“滥用”。
+"><meta name="keywords" content='231, 172, 148, 232, 174, 176'>
+  <meta itemprop="name" content="20231117_指针，地址，字符串">
+  <meta itemprop="description" content="写一下CS50学习过程中关于指针和地址部分的笔记和心得，其实就是在下面的注释部分，但是还是整理一下。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 #include &lt;stdio.h&gt; #include &lt;cs50.h&gt; int main(void) { int n = 50; char *s = &#34;HI!&#34;; int *p = &amp;n; // p 是一个 指向int类型变量 的地址 的 整数 8 bytes // p 用来存储地址 printf(&#34;%i\n&#34;, n); printf(&#34;%p\n&#34;, p); // %p 获取地址 &amp;n // p 存储 n的位置 OR p 指向 n的位置 printf(&#34;%i\n&#34;, *p); // 打印 p所指向的那个东西，De-reference 解引用= printf(&#34;%p\n&#34;, s); printf(&#34;%s\n&#34;, s); // %s (String) 不仅仅是打印了个变量值，更是根据你提供的地址找到了TA！ // 这块一定要理解好，printf不需要找到*s,他只需要找到s，也就是这个字符串的第一位(s[0])开始的地方，然后遍历到\0就可以了，所以 // 我们这里没有写 *s，而是直接s。因为*s对应的就是s[0]这么一个单字母了，我们不需要这个 printf(&#34;%s\n&#34;, s &#43; 1); // s &#43; 1 就是将起始位置向后移动了一位，于是只会打印出 “I!” printf(&#34;%c %c\n&#34;, s[0], *(s &#43; 0)); // %c 打印 *s 的字符 就是相当于s[0]，因为s指向的就是这个字符串起始位置，也就是H所在的位置 printf(&#34;%c %c\n&#34;, s[1], *(s &#43; 1)); printf(&#34;%c %c\n&#34;, s[2], *(s &#43; 2)); // 其实类似于 s[i] 的这种 “语法糖” ，在编译时是这样处理的： // s[i] --&gt; *(s &#43; i) // 不用在乎数据类型的问题，编译器会自动为你换算 // 所以让我们做点禁忌的事情 // printf(&#34;%c\n&#34;, *(s &#43; 20000)); // Segmentation fault (core dumped) // 访问了不该访问的内存 // strcmp 做了个什么事情呢？ // 比如 s, t 是两个strings // 我们怎么判断他们是否相等？ // i form 1 to n 判断 *(s &#43; i) ?= *(t &#43; i) // strcmp(s, t) 就是帮你干了这么件事情 // 若是相同的，return 0; // 若是字典序 s &gt; t, return 1; // 若是字典序 s &lt; t, return -1; string m = get_string(&#34;m: &#34;); string t = get_string(&#34;t: &#34;); printf(&#34;%p\n&#34;, m); printf(&#34;%p\n&#34;, t); } 其实指针部分的主要问题就是C语言对于 * 这个符号的“滥用”。">
+  <meta itemprop="datePublished" content="2023-11-17T08:19:16+00:00">
+  <meta itemprop="dateModified" content="2023-11-17T08:19:16+00:00">
+  <meta itemprop="wordCount" content="1391">
+  <meta itemprop="image" content="https://xyzyx.me/logo.png">
+  <meta itemprop="keywords" content="笔记"><meta property="og:url" content="https://xyzyx.me/posts/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+  <meta property="og:site_name" content="NERV_Blog">
+  <meta property="og:title" content="20231117_指针，地址，字符串">
+  <meta property="og:description" content="写一下CS50学习过程中关于指针和地址部分的笔记和心得，其实就是在下面的注释部分，但是还是整理一下。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 #include &lt;stdio.h&gt; #include &lt;cs50.h&gt; int main(void) { int n = 50; char *s = &#34;HI!&#34;; int *p = &amp;n; // p 是一个 指向int类型变量 的地址 的 整数 8 bytes // p 用来存储地址 printf(&#34;%i\n&#34;, n); printf(&#34;%p\n&#34;, p); // %p 获取地址 &amp;n // p 存储 n的位置 OR p 指向 n的位置 printf(&#34;%i\n&#34;, *p); // 打印 p所指向的那个东西，De-reference 解引用= printf(&#34;%p\n&#34;, s); printf(&#34;%s\n&#34;, s); // %s (String) 不仅仅是打印了个变量值，更是根据你提供的地址找到了TA！ // 这块一定要理解好，printf不需要找到*s,他只需要找到s，也就是这个字符串的第一位(s[0])开始的地方，然后遍历到\0就可以了，所以 // 我们这里没有写 *s，而是直接s。因为*s对应的就是s[0]这么一个单字母了，我们不需要这个 printf(&#34;%s\n&#34;, s &#43; 1); // s &#43; 1 就是将起始位置向后移动了一位，于是只会打印出 “I!” printf(&#34;%c %c\n&#34;, s[0], *(s &#43; 0)); // %c 打印 *s 的字符 就是相当于s[0]，因为s指向的就是这个字符串起始位置，也就是H所在的位置 printf(&#34;%c %c\n&#34;, s[1], *(s &#43; 1)); printf(&#34;%c %c\n&#34;, s[2], *(s &#43; 2)); // 其实类似于 s[i] 的这种 “语法糖” ，在编译时是这样处理的： // s[i] --&gt; *(s &#43; i) // 不用在乎数据类型的问题，编译器会自动为你换算 // 所以让我们做点禁忌的事情 // printf(&#34;%c\n&#34;, *(s &#43; 20000)); // Segmentation fault (core dumped) // 访问了不该访问的内存 // strcmp 做了个什么事情呢？ // 比如 s, t 是两个strings // 我们怎么判断他们是否相等？ // i form 1 to n 判断 *(s &#43; i) ?= *(t &#43; i) // strcmp(s, t) 就是帮你干了这么件事情 // 若是相同的，return 0; // 若是字典序 s &gt; t, return 1; // 若是字典序 s &lt; t, return -1; string m = get_string(&#34;m: &#34;); string t = get_string(&#34;t: &#34;); printf(&#34;%p\n&#34;, m); printf(&#34;%p\n&#34;, t); } 其实指针部分的主要问题就是C语言对于 * 这个符号的“滥用”。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-11-17T08:19:16+00:00">
+    <meta property="article:modified_time" content="2023-11-17T08:19:16+00:00">
+    <meta property="article:tag" content="笔记">
+    <meta property="og:image" content="https://xyzyx.me/logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://xyzyx.me/logo.png">
+  <meta name="twitter:title" content="20231117_指针，地址，字符串">
+  <meta name="twitter:description" content="写一下CS50学习过程中关于指针和地址部分的笔记和心得，其实就是在下面的注释部分，但是还是整理一下。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 #include &lt;stdio.h&gt; #include &lt;cs50.h&gt; int main(void) { int n = 50; char *s = &#34;HI!&#34;; int *p = &amp;n; // p 是一个 指向int类型变量 的地址 的 整数 8 bytes // p 用来存储地址 printf(&#34;%i\n&#34;, n); printf(&#34;%p\n&#34;, p); // %p 获取地址 &amp;n // p 存储 n的位置 OR p 指向 n的位置 printf(&#34;%i\n&#34;, *p); // 打印 p所指向的那个东西，De-reference 解引用= printf(&#34;%p\n&#34;, s); printf(&#34;%s\n&#34;, s); // %s (String) 不仅仅是打印了个变量值，更是根据你提供的地址找到了TA！ // 这块一定要理解好，printf不需要找到*s,他只需要找到s，也就是这个字符串的第一位(s[0])开始的地方，然后遍历到\0就可以了，所以 // 我们这里没有写 *s，而是直接s。因为*s对应的就是s[0]这么一个单字母了，我们不需要这个 printf(&#34;%s\n&#34;, s &#43; 1); // s &#43; 1 就是将起始位置向后移动了一位，于是只会打印出 “I!” printf(&#34;%c %c\n&#34;, s[0], *(s &#43; 0)); // %c 打印 *s 的字符 就是相当于s[0]，因为s指向的就是这个字符串起始位置，也就是H所在的位置 printf(&#34;%c %c\n&#34;, s[1], *(s &#43; 1)); printf(&#34;%c %c\n&#34;, s[2], *(s &#43; 2)); // 其实类似于 s[i] 的这种 “语法糖” ，在编译时是这样处理的： // s[i] --&gt; *(s &#43; i) // 不用在乎数据类型的问题，编译器会自动为你换算 // 所以让我们做点禁忌的事情 // printf(&#34;%c\n&#34;, *(s &#43; 20000)); // Segmentation fault (core dumped) // 访问了不该访问的内存 // strcmp 做了个什么事情呢？ // 比如 s, t 是两个strings // 我们怎么判断他们是否相等？ // i form 1 to n 判断 *(s &#43; i) ?= *(t &#43; i) // strcmp(s, t) 就是帮你干了这么件事情 // 若是相同的，return 0; // 若是字典序 s &gt; t, return 1; // 若是字典序 s &lt; t, return -1; string m = get_string(&#34;m: &#34;); string t = get_string(&#34;t: &#34;); printf(&#34;%p\n&#34;, m); printf(&#34;%p\n&#34;, t); } 其实指针部分的主要问题就是C语言对于 * 这个符号的“滥用”。">
+<meta name="application-name" content="NERV_Blog">
+<meta name="apple-mobile-web-app-title" content="NERV_Blog"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/favicon.svg"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="https://xyzyx.me/posts/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="20231117_指针，地址，字符串 - NERV_Blog" /><link rel="prev" type="text/html" href="https://xyzyx.me/posts/20231011_%E6%96%B0%E5%88%9B%E4%B8%96%E7%BA%AA/" title="20231011_新创世纪" /><link rel="next" type="text/html" href="https://xyzyx.me/posts/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="20231117_指针，地址，字符串" /><link rel="stylesheet" href="/css/style.min.999fc44987aa81959766023190aed3b84fc2e373f70cb60d0bf85ba5d7d93d79.css" integrity="sha256-mZ/ESYeqgZWXZgIxkK7TuE/C43P3DLYNC/hbpdfZPXk="><link rel="preload" href="/lib/fontawesome-free/all.min.320d572dfb844e7152480b7b62374236c4896ccca3ac9d69bb03f3bc2034acb8.css" integrity="sha256-Mg1XLfuETnFSSAt7YjdCNsSJbMyjrJ1puwPzvCA0rLg=" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.320d572dfb844e7152480b7b62374236c4896ccca3ac9d69bb03f3bc2034acb8.css" integrity="sha256-Mg1XLfuETnFSSAt7YjdCNsSJbMyjrJ1puwPzvCA0rLg="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "20231117_指针，地址，字符串",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/xyzyx.me\/posts\/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2\/"
+    },"image": ["https:\/\/xyzyx.me\/favicon.ico"],"genre": "posts","keywords": "231, 172, 148, 232, 174, 176","wordcount":  1391 ,
+    "url": "https:\/\/xyzyx.me\/posts\/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2\/","datePublished": "2023-11-17T08:19:16+00:00","dateModified": "2023-11-17T08:19:16+00:00","publisher": {
+      "@type": "Organization",
+      "name": "Leehow","logo": "https:\/\/xyzyx.me\/logo.png"},"author": {
+        "@type": "Person",
+        "name": "Mostly_Harmless"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.15fc6d693c4ea1331dfdbe98e8c76402340195b0a3b4047378cec39b7c827bfa.js" integrity="sha256-FfxtaTxOoTMd/b6Y6MdkAjQBlbCjtARzeM7Dm3yCe/o="></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="NERV_Blog"><img loading="lazy" src="/logo.png" alt="NERV_Blog" data-title="NERV_Blog" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">NERV_Blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/posts/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 文章</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/"><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="NERV_Blog"><img loading="lazy" src="/logo.png" alt="NERV_Blog" data-title="NERV_Blog" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">NERV_Blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/posts/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 文章</a></li><li class="menu-item"><a class="menu-link" href="/categories/"><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>20231117_指针，地址，字符串</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="https://cn.gravatar.com/avatar/9e11a09d485e47de4b57e3faaf16715d?s=32&amp;d=identicon" alt="Mostly_Harmless" data-title="Mostly_Harmless" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;Mostly_Harmless</span></span></div><div class="post-meta-line"><span title="发布于 2023-11-17 08:19:16"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-11-17">2023-11-17</time></span>&nbsp;<span title="1391 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+    </div><div class="content" id="content"><div class="details admonition warning open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-exclamation-triangle fa-fw" aria-hidden="true"></i>警告<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2023-11-17，文中内容可能已过时。</div>
+      </div>
+    </div><p>写一下CS50学习过程中关于指针和地址部分的笔记和心得，其实就是在下面的注释部分，但是还是整理一下。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cs50.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="s">&#34;HI!&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">;</span> <span class="c1">// p 是一个 指向int类型变量 的地址 的 整数 8 bytes
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// p 用来存储地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%i</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%p</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span> <span class="c1">// %p 获取地址 &amp;n
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// p 存储 n的位置 OR p 指向 n的位置
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%i</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 打印 p所指向的那个东西，De-reference 解引用=
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%p</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// %s (String) 不仅仅是打印了个变量值，更是根据你提供的地址找到了TA！
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 这块一定要理解好，printf不需要找到*s,他只需要找到s，也就是这个字符串的第一位(s[0])开始的地方，然后遍历到\0就可以了，所以
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 我们这里没有写 *s，而是直接s。因为*s对应的就是s[0]这么一个单字母了，我们不需要这个
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// s + 1 就是将起始位置向后移动了一位，于是只会打印出 “I!”
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%c %c</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="mi">0</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// %c 打印 *s 的字符 就是相当于s[0]，因为s指向的就是这个字符串起始位置，也就是H所在的位置
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%c %c</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">*</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%c %c</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="o">*</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="mi">2</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 其实类似于 s[i] 的这种 “语法糖” ，在编译时是这样处理的：
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// s[i] --&gt; *(s + i)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 不用在乎数据类型的问题，编译器会自动为你换算
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 所以让我们做点禁忌的事情
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// printf(&#34;%c\n&#34;, *(s + 20000));
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// Segmentation fault (core dumped)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 访问了不该访问的内存
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// strcmp 做了个什么事情呢？
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 比如 s, t 是两个strings
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 我们怎么判断他们是否相等？
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// i form 1 to n 判断 *(s + i) ?= *(t + i)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// strcmp(s, t) 就是帮你干了这么件事情
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 若是相同的，return 0;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 若是字典序 s &gt; t, return 1;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 若是字典序 s &lt; t, return -1;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="n">string</span> <span class="n">m</span> <span class="o">=</span> <span class="nf">get_string</span><span class="p">(</span><span class="s">&#34;m: &#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">string</span> <span class="n">t</span> <span class="o">=</span> <span class="nf">get_string</span><span class="p">(</span><span class="s">&#34;t: &#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%p</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">m</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%p</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">t</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>其实指针部分的主要问题就是C语言对于 * 这个符号的“滥用”。</p>
+<p>1.int *p = &amp;n;
+此时*的作用是<strong>定义指针</strong>，p 是一个<strong>指向int类型变量的地址</strong>的<strong>整数</strong>，大小为8 bytes。</p>
+<p>p 可以理解为存储了<strong>n的位置</strong>，你知道p，也就能找到n，并且n在内存中的位置是确定的，尽管n的数值会改变，但是这个变量所在的位置是在其被定义的那个时候就确定了。</p>
+<p>2.printf(&quot;%i\n&quot;, *p);
+此时*的作用就是<strong>De-reference 解引用指针</strong>，寻找到p对应的那个“东西”。</p>
+<hr>
+<p>剩下的就是一些细枝末节的东西，例如：</p>
+<p>%p就是打印p所指向的<strong>地址</strong>
+e.g:printf(&quot;%p\n&quot;, p); 输出的就是0x16b6c710c，也就是n所在的地址。</p>
+<p>对于字符串 (char数组) 而言，printf中的%s，你只需要提供你想要打印的起始位置，printf函数会自动替你完成“<strong>往下走，直到\0</strong>”的步骤。</p>
+<p>e.g:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">char *s = &#34;HI!&#34;;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">printf(&#34;%p\n&#34;, s); // out:0x16ae1f108
+</span></span><span class="line"><span class="cl">printf(&#34;%s\n&#34;, s); // out:HI! 
+</span></span><span class="line"><span class="cl">printf(&#34;%s\n&#34;, s + 1); // out:I!</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们这里没有写 *s，而是直接写s。因为*s对应的就是s[0]所对应的这么一个单字母(H)了，我们不需要这个，我们需要的是起始位置，也就是起始的地址。</p>
+<p>类似于 s[i] 的这种 “语法糖” ，在编译时是这样处理的：<strong>s[i] &ndash;&gt; *(s + i)</strong>
+不用担心，编译器会为你做好一切，这类语法🍬还是很好用的。</p>
+<hr>
+<p>来点<strong>禁忌</strong>的事情</p>
+<p>比如我们写这么一个东西</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">printf(&#34;%c\n&#34;, *(s + 200000));</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们想访问一下 s后200000位内存存着些什么，但是运行的时候就是<strong>Segmentation fault (core dumped)</strong>，你访问了（我访问了/计算机访问了）不该访问的内存。</p>
+<hr>
+<p>我们再围绕字符串写一点点东西，比如<strong>strings.h</strong>库中的<strong>strcmp</strong>函数，它的实现原理就是：输入s, t两个strings。然后开始判断 *(s + i) ?= *(t + i)，其中i从0到n遍历。</p>
+<p>若是相同的，return 0;
+若是字典序 s &gt; t, return 1;
+若是字典序 s &lt; t, return -1;</p>
+<p>Mostly_Harmless</p>
+<p>写于2023.11.16 下午二时</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-11-17 08:19:16">更新于 2023-11-17&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="分享到 X" data-sharer="twitter" data-url="https://xyzyx.me/posts/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-title="20231117_指针，地址，字符串" data-hashtags="231,172,148,232,174,176"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://xyzyx.me/posts/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-hashtag="231"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://xyzyx.me/posts/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-title="20231117_指针，地址，字符串" data-web><i class="fa-brands fa-whatsapp fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://xyzyx.me/posts/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-title="20231117_指针，地址，字符串"><svg class="icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LINE</title><path d="M19.365 9.863c.349.0.63.285.63.631.0.345-.281.63-.63.63H17.61v1.125h1.755c.349.0.63.283.63.63.0.344-.281.629-.63.629h-2.386c-.345.0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346.0.627.285.627.63.0.349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211.0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346.0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195.0.375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345.0.63.285.63.63v4.771zm-5.741.0c0 .344-.282.629-.631.629-.345.0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346.0.628.285.628.63v4.771zm-2.466.629H4.917c-.345.0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348.0.63.285.63.63v4.141h1.756c.348.0.629.283.629.63.0.344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943.0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg></a>
+  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://xyzyx.me/posts/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-title="20231117_指针，地址，字符串"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://xyzyx.me/posts/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-title="20231117_指针，地址，字符串" data-description=""><svg class="icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Myspace</title><path d="M19.802 12.274A3.811 3.811.0 0023.62 8.47c0-2.101-1.71-3.795-3.818-3.795a3.816 3.816.0 00-3.818 3.81 3.817 3.817.0 003.818 3.811zm-8.602.705a3.43 3.43.0 003.435-3.424A3.43 3.43.0 0011.2 6.13 3.44 3.44.0 007.764 9.566 3.436 3.436.0 0011.2 13zm-7.8.635c1.71.0 3.093-1.38 3.093-3.081.0-1.704-1.395-3.084-3.105-3.084A3.086 3.086.0 00.3 10.539c0 1.7 1.387 3.078 3.095 3.078zm0 .705c-1.96.0-3.4 1.717-3.4 3.495v1.196c0 .17.138.31.31.31h6.18a.31.31.0 00.309-.31v-1.196c0-1.779-1.437-3.5-3.398-3.5zm7.8-.56c-2.18.0-3.78 1.915-3.78 3.891v1.331c0 .188.156.344.345.344h6.87a.344.344.0 00.342-.344V17.65c0-1.976-1.598-3.891-3.777-3.891zm8.602-.617c-2.422.0-4.197 2.126-4.197 4.323v1.477c0 .21.172.381.382.381h7.63c.21.0.383-.171.383-.381v-1.477c-.001-2.197-1.776-4.323-4.198-4.323z"/></svg></a>
+  <a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://xyzyx.me/posts/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-title="20231117_指针，地址，字符串" data-description=""><i class="fa-brands fa-blogger fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://xyzyx.me/posts/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-title="20231117_指针，地址，字符串"><i class="fa-brands fa-evernote fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E7%AC%94%E8%AE%B0/" class="post-tag" title="标签 - 笔记">笔记</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/20231011_%E6%96%B0%E5%88%9B%E4%B8%96%E7%BA%AA/" class="post-nav-item" rel="prev" title="20231011_新创世纪"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>20231011_新创世纪</a><a href="/posts/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="post-nav-item" rel="next" title="20231117_指针，地址，字符串">20231117_指针，地址，字符串<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo=""
+            data-repo-id=""
+            data-category=""
+            data-category-id=""
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.16-f66dc32e"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">Mostly_Harmless</a></span><span class="license footer-divider"><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line statistics"><span class="site-time" title='网站运行中……'><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden="true"></i><span class="run-times ms-1">网站运行中……</span></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.120f067ebd6f322339e2ccccd7e87e334d7c7ea5b2bd553f325f2ae3c3ae6fe8.css" integrity="sha256-Eg8Gfr1vMiM54szM1+h+M018fqWyvVU/Ml8q48Oub+g="><link rel="preload" href="/lib/katex/katex.min.7e5db7914b97e596a36c1abb67ccc7f174f8bb71d38c9a88c55b262ed1737f97.css" integrity="sha256-fl23kUuX5ZajbBq7Z8zH8XT4u3HTjJqIxVsmLtFzf5c=" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.7e5db7914b97e596a36c1abb67ccc7f174f8bb71d38c9a88c55b262ed1737f97.css" integrity="sha256-fl23kUuX5ZajbBq7Z8zH8XT4u3HTjJqIxVsmLtFzf5c="></noscript><script src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8=" defer></script><script src="/lib/lightgallery/lightgallery.min.7de2854e7954105f2b91ff5983749c4e3c7af51e05aae279f8a5d66994a85777.js" integrity="sha256-feKFTnlUEF8rkf9Zg3ScTjx69R4FquJ5+KXWaZSoV3c=" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4fbc3ec1878e90348b71b3594d8ef27c4f10a1a4c6d5e74948d0ee59018fd87c.js" integrity="sha256-T7w+wYeOkDSLcbNZTY7yfE8QoaTG1edJSNDuWQGP2Hw=" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.821a2adb8005511c0ad9ef6f395c1b74beacc2da194cd13a4ac43d341246e085.js" integrity="sha256-ghoq24AFURwK2e9vOVwbdL6swtoZTNE6SsQ9NBJG4IU=" defer></script><script src="/lib/sharer/sharer.min.ba5171a78670b031914e623431a33a3d73c1ea9897e552ba73bc2c2da7c777b9.js" integrity="sha256-ulFxp4ZwsDGRTmI0MaM6PXPB6piX5VK6c7wsLafHd7k=" async defer></script><script src="/lib/katex/katex.min.9f45307c5794ed247a0d095f3a62e52ef2215a67b2327203a7fd919959ae79d1.js" integrity="sha256-n0UwfFeU7SR6DQlfOmLlLvIhWmeyMnIDp/2RmVmuedE=" defer></script><script src="/lib/katex/auto-render.min.7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae.js" integrity="sha256-e1fUJ6xicGd9r42DgN7SzHMzb5FJoWe44f4NbvZmBK4=" defer></script><script src="/lib/katex/copy-tex.min.07770af90943a1de1a1010794bc78c6a7346d46d48fb63e35cc76ba76b827604.js" integrity="sha256-B3cK+QlDod4aEBB5S8eManNG1G1I+2PjXMdrp2uCdgQ=" defer></script><script src="/lib/katex/mhchem.min.f0ca03df194b8c3d6017ff455db6a0ef98857905663fa311a6cded788b15340b.js" integrity="sha256-8MoD3xlLjD1gF/9FXbag75iFeQVmP6MRps3teIsVNAs=" defer></script><script src="/lib/pangu/pangu.min.8feca3e7a71d118d82c2456d1b2cf5f1f3726c51a930627c2711b7192c8edbe2.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" defer></script><script>window.config={"autoBookmark":true,"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"enablePWA":true,"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"pangu":{"enable":true,"selector":"article"},"search":{"highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50},"siteTime":"2018-02-06T11:15:22+08:00","version":"v0.3.16-f66dc32e"};</script><script src="/js/theme.min.0daa504da430d5723626cca1801d04ac125316adbe008489bd4ebe37d7bd9a01.js" integrity="sha256-DapQTaQw1XI2JsyhgB0ErBJTFq2+AISJvU6+N9e9mgE=" defer></script></body>
+</html>

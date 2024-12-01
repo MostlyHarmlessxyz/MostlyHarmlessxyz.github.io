@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>20231119_排序算法 Sort - NERV_Blog</title><meta name="author" content="Mostly_Harmless">
+<meta name="description" content="写点排序算法的笔记：
+插入排序 InsertionSort O(n^2) 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 void insertSort(int arr[], int begin, int end) { // int length = end - begin &#43; 1; for (int i = begin &#43; 1; i &lt; end &#43; 1; i&#43;&#43;) { for (int j = i; j &gt; begin; j--) { if (arr[j] &lt; arr[j - 1]) { swap(&amp;arr[j], &amp;arr[j - 1]); }else { break; } } } } 插入排序的本质就是排个头，先把第一个固定住，然后看第二个，第二个要是比第一个矮，就swap一下。
+"><meta name="keywords" content='231, 172, 148, 232, 174, 176'>
+  <meta itemprop="name" content="20231119_排序算法 Sort">
+  <meta itemprop="description" content="写点排序算法的笔记：
+插入排序 InsertionSort O(n^2) 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 void insertSort(int arr[], int begin, int end) { // int length = end - begin &#43; 1; for (int i = begin &#43; 1; i &lt; end &#43; 1; i&#43;&#43;) { for (int j = i; j &gt; begin; j--) { if (arr[j] &lt; arr[j - 1]) { swap(&amp;arr[j], &amp;arr[j - 1]); }else { break; } } } } 插入排序的本质就是排个头，先把第一个固定住，然后看第二个，第二个要是比第一个矮，就swap一下。">
+  <meta itemprop="datePublished" content="2023-11-19T23:09:59+00:00">
+  <meta itemprop="dateModified" content="2023-11-19T23:09:59+00:00">
+  <meta itemprop="wordCount" content="1472">
+  <meta itemprop="image" content="https://xyzyx.me/logo.png">
+  <meta itemprop="keywords" content="笔记"><meta property="og:url" content="https://xyzyx.me/posts/20231119_%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-sort/">
+  <meta property="og:site_name" content="NERV_Blog">
+  <meta property="og:title" content="20231119_排序算法 Sort">
+  <meta property="og:description" content="写点排序算法的笔记：
+插入排序 InsertionSort O(n^2) 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 void insertSort(int arr[], int begin, int end) { // int length = end - begin &#43; 1; for (int i = begin &#43; 1; i &lt; end &#43; 1; i&#43;&#43;) { for (int j = i; j &gt; begin; j--) { if (arr[j] &lt; arr[j - 1]) { swap(&amp;arr[j], &amp;arr[j - 1]); }else { break; } } } } 插入排序的本质就是排个头，先把第一个固定住，然后看第二个，第二个要是比第一个矮，就swap一下。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-11-19T23:09:59+00:00">
+    <meta property="article:modified_time" content="2023-11-19T23:09:59+00:00">
+    <meta property="article:tag" content="笔记">
+    <meta property="og:image" content="https://xyzyx.me/logo.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://xyzyx.me/logo.png">
+  <meta name="twitter:title" content="20231119_排序算法 Sort">
+  <meta name="twitter:description" content="写点排序算法的笔记：
+插入排序 InsertionSort O(n^2) 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 void insertSort(int arr[], int begin, int end) { // int length = end - begin &#43; 1; for (int i = begin &#43; 1; i &lt; end &#43; 1; i&#43;&#43;) { for (int j = i; j &gt; begin; j--) { if (arr[j] &lt; arr[j - 1]) { swap(&amp;arr[j], &amp;arr[j - 1]); }else { break; } } } } 插入排序的本质就是排个头，先把第一个固定住，然后看第二个，第二个要是比第一个矮，就swap一下。">
+<meta name="application-name" content="NERV_Blog">
+<meta name="apple-mobile-web-app-title" content="NERV_Blog"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="/favicon.svg"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="https://xyzyx.me/posts/20231119_%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-sort/" title="20231119_排序算法 Sort - NERV_Blog" /><link rel="prev" type="text/html" href="https://xyzyx.me/posts/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="20231117_指针，地址，字符串" /><link rel="next" type="text/html" href="https://xyzyx.me/posts/20231119_%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-sort/" title="20231119_排序算法 Sort" /><link rel="stylesheet" href="/css/style.min.999fc44987aa81959766023190aed3b84fc2e373f70cb60d0bf85ba5d7d93d79.css" integrity="sha256-mZ/ESYeqgZWXZgIxkK7TuE/C43P3DLYNC/hbpdfZPXk="><link rel="preload" href="/lib/fontawesome-free/all.min.320d572dfb844e7152480b7b62374236c4896ccca3ac9d69bb03f3bc2034acb8.css" integrity="sha256-Mg1XLfuETnFSSAt7YjdCNsSJbMyjrJ1puwPzvCA0rLg=" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.320d572dfb844e7152480b7b62374236c4896ccca3ac9d69bb03f3bc2034acb8.css" integrity="sha256-Mg1XLfuETnFSSAt7YjdCNsSJbMyjrJ1puwPzvCA0rLg="></noscript><link rel="preload" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8=" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.5fbaeb9f8e25d7e0143bae61d4b1802c16ce7390b96ceb2d498b0d96ff4c853f.css" integrity="sha256-X7rrn44l1+AUO65h1LGALBbOc5C5bOstSYsNlv9MhT8="></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "20231119_排序算法 Sort",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/xyzyx.me\/posts\/20231119_%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-sort\/"
+    },"image": ["https:\/\/xyzyx.me\/favicon.ico"],"genre": "posts","keywords": "231, 172, 148, 232, 174, 176","wordcount":  1472 ,
+    "url": "https:\/\/xyzyx.me\/posts\/20231119_%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-sort\/","datePublished": "2023-11-19T23:09:59+00:00","dateModified": "2023-11-19T23:09:59+00:00","publisher": {
+      "@type": "Organization",
+      "name": "Leehow","logo": "https:\/\/xyzyx.me\/logo.png"},"author": {
+        "@type": "Person",
+        "name": "Mostly_Harmless"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.15fc6d693c4ea1331dfdbe98e8c76402340195b0a3b4047378cec39b7c827bfa.js" integrity="sha256-FfxtaTxOoTMd/b6Y6MdkAjQBlbCjtARzeM7Dm3yCe/o="></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="NERV_Blog"><img loading="lazy" src="/logo.png" alt="NERV_Blog" data-title="NERV_Blog" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">NERV_Blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/posts/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 文章</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/"><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="NERV_Blog"><img loading="lazy" src="/logo.png" alt="NERV_Blog" data-title="NERV_Blog" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">NERV_Blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/posts/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 文章</a></li><li class="menu-item"><a class="menu-link" href="/categories/"><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>20231119_排序算法 Sort</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img loading="lazy" src="https://cn.gravatar.com/avatar/9e11a09d485e47de4b57e3faaf16715d?s=32&amp;d=identicon" alt="Mostly_Harmless" data-title="Mostly_Harmless" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;Mostly_Harmless</span></span></div><div class="post-meta-line"><span title="发布于 2023-11-19 23:09:59"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-11-19">2023-11-19</time></span>&nbsp;<span title="1472 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#插入排序-insertionsort-on2">插入排序 InsertionSort O(n^2)</a></li>
+    <li><a href="#快速排序-quicksort-onlogn">快速排序 QuickSort O(nlogn)</a></li>
+    <li><a href="#并归排序-mergesort-onlogn">并归排序 mergeSort O(nlogn)</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition warning open">
+      <div class="details-summary admonition-title">
+        <i class="icon fa-solid fa-exclamation-triangle fa-fw" aria-hidden="true"></i>警告<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2023-11-19，文中内容可能已过时。</div>
+      </div>
+    </div><p>写点排序算法的笔记：</p>
+<h2 id="插入排序-insertionsort-on2" class="heading-element"><span>插入排序 InsertionSort O(n^2)</span>
+  <a href="#%e6%8f%92%e5%85%a5%e6%8e%92%e5%ba%8f-insertionsort-on2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">void insertSort(int arr[], int begin, int end)
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    // int length = end - begin + 1;
+</span></span><span class="line"><span class="cl">    for (int i = begin + 1; i &lt; end + 1; i++)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        for (int j = i; j &gt; begin; j--)
+</span></span><span class="line"><span class="cl">        {
+</span></span><span class="line"><span class="cl">            if (arr[j] &lt; arr[j - 1])
+</span></span><span class="line"><span class="cl">            {
+</span></span><span class="line"><span class="cl">                swap(&amp;arr[j], &amp;arr[j - 1]);
+</span></span><span class="line"><span class="cl">            }else
+</span></span><span class="line"><span class="cl">            {
+</span></span><span class="line"><span class="cl">                break;
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}</span></span></code></pre></td></tr></table>
+</div>
+</div><p>插入排序的本质就是排个头，先把第一个固定住，然后看第二个，第二个要是比第一个矮，就swap一下。</p>
+<p>然后看第三个，第三个有没有第二个矮，要是矮，swap，此时第三个变成了第二个，再判断一下它和第一个的关系…………</p>
+<p>循环往复，最后就排序完毕了。</p>
+<hr>
+<h2 id="快速排序-quicksort-onlogn" class="heading-element"><span>快速排序 QuickSort O(nlogn)</span>
+  <a href="#%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f-quicksort-onlogn" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">void QuickSort(int array[], int low , int high)
+</span></span><span class="line"><span class="cl">{   
+</span></span><span class="line"><span class="cl">    if(low&lt;high){
+</span></span><span class="line"><span class="cl">    int index = array[low];
+</span></span><span class="line"><span class="cl">    int i = low;
+</span></span><span class="line"><span class="cl">    int j = high;
+</span></span><span class="line"><span class="cl">    while (i&lt;j)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        while (i&lt;j &amp;&amp; array[j] &gt;= index)
+</span></span><span class="line"><span class="cl">        {
+</span></span><span class="line"><span class="cl">            j--;
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        if (i&lt;j)
+</span></span><span class="line"><span class="cl">        {
+</span></span><span class="line"><span class="cl">            swap(&amp;array[i], &amp;array[j]);
+</span></span><span class="line"><span class="cl">            i++;
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        while (i&lt;j &amp;&amp; array[i]&lt;index)
+</span></span><span class="line"><span class="cl">        {
+</span></span><span class="line"><span class="cl">            i++;
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        if(i&lt;j)
+</span></span><span class="line"><span class="cl">        {
+</span></span><span class="line"><span class="cl">            swap(&amp;array[i], &amp;array[j]);
+</span></span><span class="line"><span class="cl">            j--;
+</span></span><span class="line"><span class="cl">        } 
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    array[i] = index;
+</span></span><span class="line"><span class="cl">    QuickSort(array,low,i-1);
+</span></span><span class="line"><span class="cl">    QuickSort(array,i+1,high);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}</span></span></code></pre></td></tr></table>
+</div>
+</div><p>快速排序是我接触的第一个排序算法，也是第一个利用到了分治和递归思想的算法。</p>
+<p>说大白话就是<strong>分堆</strong>，我们先选一个“标准/标杆”(index), 这里我直接选的是第一项，然后我们把所有小于index的元素，都swap到index左边，大于index的元素都swap到右边。这样我们就获得了两堆数。之后对着这两堆数进行递归操作，反复的分堆分堆，分到什么时候呢？分到每个堆只有一个数字了，这也就意味着我们分完了。</p>
+<p>在分堆的过程也是有讲究的，我们从数组的两端向中间移动。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">while (i&lt;j &amp;&amp; array[j] &gt;= index)
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    j--;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">if (i&lt;j) // 这个判断就是防止因为i &gt;= j导致while终止，误操作swap，下面的if也是同理
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    swap(&amp;array[i], &amp;array[j]);
+</span></span><span class="line"><span class="cl">    i++; // 注意这个i++；
+</span></span><span class="line"><span class="cl">}</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面这段就是从最右端往左走，大的我们就留下，一旦发现小的，我们就直接swap到左边，同时从左边swap一个数字过来。可能你想问，如果我们swap过来的那个数字也小于index，应该放在左边怎么办呢？不急，我们接着往下看。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">while (i&lt;j &amp;&amp; array[i]&lt;index)
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    i++;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">if(i&lt;j)
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    swap(&amp;array[i], &amp;array[j]);
+</span></span><span class="line"><span class="cl">    j--;
+</span></span><span class="line"><span class="cl">} </span></span></code></pre></td></tr></table>
+</div>
+</div><p>这段开始我们从左端往右走，和上面的同理，小的我们留下，一旦发现大的，我们直接swap到右边，同时从右边swap一个数字过来。这个疑问又出现了，我们如果swap了一个大于index数字过来怎么办？</p>
+<p>还好，循环会解决这些疑问。</p>
+<p>当你进入下一轮最外层的while循环时，我们首先就会判断上一轮swap过来的**array [ j ]**满不满足我们的需求，如果不满足，果断扔回去。第二个也是同理。</p>
+<p>就这样，不断的把数字扔来扔去，我们就得到了一个排好序的数组。</p>
+<hr>
+<h2 id="并归排序-mergesort-onlogn" class="heading-element"><span>并归排序 mergeSort O(nlogn)</span>
+  <a href="#%e5%b9%b6%e5%bd%92%e6%8e%92%e5%ba%8f-mergesort-onlogn" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">void merge(int arr[], int left, int mid, int right)
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    int i, j, k;
+</span></span><span class="line"><span class="cl">    int l = mid - left + 1;
+</span></span><span class="line"><span class="cl">    int r = right - mid;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    // 创建两个临时数组 L/R
+</span></span><span class="line"><span class="cl">    int *L = (int *)malloc(l * sizeof(int));
+</span></span><span class="line"><span class="cl">    int *R = (int *)malloc(r * sizeof(int));
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    // 把数字放进去
+</span></span><span class="line"><span class="cl">    for (i = 0; i &lt; l; i++)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        L[i] = arr[left + i];
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    for (j = 0; j &lt; r; j++)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        R[j] = arr[mid + 1 + j];
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    // 开始分吧
+</span></span><span class="line"><span class="cl">    i = 0;
+</span></span><span class="line"><span class="cl">    j = 0;
+</span></span><span class="line"><span class="cl">    k = left; // 众神归位
+</span></span><span class="line"><span class="cl">    while (i &lt; l &amp;&amp; j &lt; r)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        if (L[i] &lt;= R[j])
+</span></span><span class="line"><span class="cl">        {
+</span></span><span class="line"><span class="cl">            arr[k] = L[i];
+</span></span><span class="line"><span class="cl">            i++;
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">        else
+</span></span><span class="line"><span class="cl">        {
+</span></span><span class="line"><span class="cl">            arr[k] = R[j];
+</span></span><span class="line"><span class="cl">            j++;
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">        k++;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    // 把剩下的元素处理干净
+</span></span><span class="line"><span class="cl">    while (i &lt; l)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        arr[k] = L[i];
+</span></span><span class="line"><span class="cl">        i++;
+</span></span><span class="line"><span class="cl">        k++;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    while (j &lt; r)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        arr[k] = R[j];
+</span></span><span class="line"><span class="cl">        j++;
+</span></span><span class="line"><span class="cl">        k++;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    // free一下，养成好习惯
+</span></span><span class="line"><span class="cl">    free(L);
+</span></span><span class="line"><span class="cl">    free(R);
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">void mergeSort(int arr[], int left, int right)
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    if (left &lt; right) // 啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊，不要忘了比较这个啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        int mid = left + (right - left) / 2;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        mergeSort(arr, left, mid);
+</span></span><span class="line"><span class="cl">        mergeSort(arr, mid + 1, right);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        merge(arr, left, mid, right);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}</span></span></code></pre></td></tr></table>
+</div>
+</div><p>并归排序的实质，在我理解看来就是局部的有序，然后进行整合。我们通过递归，获得了大量的size为2(或1)的有序的子数组，然后我们选两个，因为在他们内部已经有序了，所以我们比第一个数字的大小，谁大谁放第一个…………就这样，两个有序数组合并成了一个大的有序数组，最终实现了排序。</p>
+<hr>
+<p>先写到这里，未完待续</p>
+<p>Mostly_Harmless</p>
+<p>写于2023.11.20 上午十时</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2023-11-19 23:09:59">更新于 2023-11-19&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="分享到 X" data-sharer="twitter" data-url="https://xyzyx.me/posts/20231119_%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-sort/" data-title="20231119_排序算法 Sort" data-hashtags="231,172,148,232,174,176"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://xyzyx.me/posts/20231119_%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-sort/" data-hashtag="231"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 WhatsApp" data-sharer="whatsapp" data-url="https://xyzyx.me/posts/20231119_%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-sort/" data-title="20231119_排序算法 Sort" data-web><i class="fa-brands fa-whatsapp fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://xyzyx.me/posts/20231119_%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-sort/" data-title="20231119_排序算法 Sort"><svg class="icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>LINE</title><path d="M19.365 9.863c.349.0.63.285.63.631.0.345-.281.63-.63.63H17.61v1.125h1.755c.349.0.63.283.63.63.0.344-.281.629-.63.629h-2.386c-.345.0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346.0.627.285.627.63.0.349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211.0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346.0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195.0.375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345.0.63.285.63.63v4.771zm-5.741.0c0 .344-.282.629-.631.629-.345.0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346.0.628.285.628.63v4.771zm-2.466.629H4.917c-.345.0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348.0.63.285.63.63v4.141h1.756c.348.0.629.283.629.63.0.344-.282.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943.0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg></a>
+  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://xyzyx.me/posts/20231119_%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-sort/" data-title="20231119_排序算法 Sort"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Myspace" data-sharer="myspace" data-url="https://xyzyx.me/posts/20231119_%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-sort/" data-title="20231119_排序算法 Sort" data-description=""><svg class="icon" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Myspace</title><path d="M19.802 12.274A3.811 3.811.0 0023.62 8.47c0-2.101-1.71-3.795-3.818-3.795a3.816 3.816.0 00-3.818 3.81 3.817 3.817.0 003.818 3.811zm-8.602.705a3.43 3.43.0 003.435-3.424A3.43 3.43.0 0011.2 6.13 3.44 3.44.0 007.764 9.566 3.436 3.436.0 0011.2 13zm-7.8.635c1.71.0 3.093-1.38 3.093-3.081.0-1.704-1.395-3.084-3.105-3.084A3.086 3.086.0 00.3 10.539c0 1.7 1.387 3.078 3.095 3.078zm0 .705c-1.96.0-3.4 1.717-3.4 3.495v1.196c0 .17.138.31.31.31h6.18a.31.31.0 00.309-.31v-1.196c0-1.779-1.437-3.5-3.398-3.5zm7.8-.56c-2.18.0-3.78 1.915-3.78 3.891v1.331c0 .188.156.344.345.344h6.87a.344.344.0 00.342-.344V17.65c0-1.976-1.598-3.891-3.777-3.891zm8.602-.617c-2.422.0-4.197 2.126-4.197 4.323v1.477c0 .21.172.381.382.381h7.63c.21.0.383-.171.383-.381v-1.477c-.001-2.197-1.776-4.323-4.198-4.323z"/></svg></a>
+  <a href="javascript:void(0);" title="分享到 Blogger" data-sharer="blogger" data-url="https://xyzyx.me/posts/20231119_%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-sort/" data-title="20231119_排序算法 Sort" data-description=""><i class="fa-brands fa-blogger fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Evernote" data-sharer="evernote" data-url="https://xyzyx.me/posts/20231119_%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-sort/" data-title="20231119_排序算法 Sort"><i class="fa-brands fa-evernote fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E7%AC%94%E8%AE%B0/" class="post-tag" title="标签 - 笔记">笔记</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/20231117_%E6%8C%87%E9%92%88%E5%9C%B0%E5%9D%80%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="post-nav-item" rel="prev" title="20231117_指针，地址，字符串"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>20231117_指针，地址，字符串</a><a href="/posts/20231119_%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95-sort/" class="post-nav-item" rel="next" title="20231119_排序算法 Sort">20231119_排序算法 Sort<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo=""
+            data-repo-id=""
+            data-category=""
+            data-category-id=""
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content always-active" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.3"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.16-f66dc32e"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2019 - 2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">Mostly_Harmless</a></span><span class="license footer-divider"><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line statistics"><span class="site-time" title='网站运行中……'><i class="fa-solid fa-heartbeat fa-fw animate-icon" aria-hidden="true"></i><span class="run-times ms-1">网站运行中……</span></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><div class="reading-progress-bar" style="left: 0;top: 0;"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/lightgallery/css/lightgallery-bundle.min.120f067ebd6f322339e2ccccd7e87e334d7c7ea5b2bd553f325f2ae3c3ae6fe8.css" integrity="sha256-Eg8Gfr1vMiM54szM1+h+M018fqWyvVU/Ml8q48Oub+g="><link rel="preload" href="/lib/katex/katex.min.7e5db7914b97e596a36c1abb67ccc7f174f8bb71d38c9a88c55b262ed1737f97.css" integrity="sha256-fl23kUuX5ZajbBq7Z8zH8XT4u3HTjJqIxVsmLtFzf5c=" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.7e5db7914b97e596a36c1abb67ccc7f174f8bb71d38c9a88c55b262ed1737f97.css" integrity="sha256-fl23kUuX5ZajbBq7Z8zH8XT4u3HTjJqIxVsmLtFzf5c="></noscript><script src="/lib/autocomplete/autocomplete.min.ae2da1bd62c6469ee27770ad1cddf2e8296d8a7f6d85b091463e5200c5e320af.js" integrity="sha256-ri2hvWLGRp7id3CtHN3y6Cltin9thbCRRj5SAMXjIK8=" defer></script><script src="/lib/lightgallery/lightgallery.min.7de2854e7954105f2b91ff5983749c4e3c7af51e05aae279f8a5d66994a85777.js" integrity="sha256-feKFTnlUEF8rkf9Zg3ScTjx69R4FquJ5+KXWaZSoV3c=" defer></script><script src="/lib/lightgallery/plugins/thumbnail/lg-thumbnail.min.4fbc3ec1878e90348b71b3594d8ef27c4f10a1a4c6d5e74948d0ee59018fd87c.js" integrity="sha256-T7w+wYeOkDSLcbNZTY7yfE8QoaTG1edJSNDuWQGP2Hw=" defer></script><script src="/lib/lightgallery/plugins/zoom/lg-zoom.min.821a2adb8005511c0ad9ef6f395c1b74beacc2da194cd13a4ac43d341246e085.js" integrity="sha256-ghoq24AFURwK2e9vOVwbdL6swtoZTNE6SsQ9NBJG4IU=" defer></script><script src="/lib/sharer/sharer.min.ba5171a78670b031914e623431a33a3d73c1ea9897e552ba73bc2c2da7c777b9.js" integrity="sha256-ulFxp4ZwsDGRTmI0MaM6PXPB6piX5VK6c7wsLafHd7k=" async defer></script><script src="/lib/katex/katex.min.9f45307c5794ed247a0d095f3a62e52ef2215a67b2327203a7fd919959ae79d1.js" integrity="sha256-n0UwfFeU7SR6DQlfOmLlLvIhWmeyMnIDp/2RmVmuedE=" defer></script><script src="/lib/katex/auto-render.min.7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae.js" integrity="sha256-e1fUJ6xicGd9r42DgN7SzHMzb5FJoWe44f4NbvZmBK4=" defer></script><script src="/lib/katex/copy-tex.min.07770af90943a1de1a1010794bc78c6a7346d46d48fb63e35cc76ba76b827604.js" integrity="sha256-B3cK+QlDod4aEBB5S8eManNG1G1I+2PjXMdrp2uCdgQ=" defer></script><script src="/lib/katex/mhchem.min.f0ca03df194b8c3d6017ff455db6a0ef98857905663fa311a6cded788b15340b.js" integrity="sha256-8MoD3xlLjD1gF/9FXbag75iFeQVmP6MRps3teIsVNAs=" defer></script><script src="/lib/pangu/pangu.min.8feca3e7a71d118d82c2456d1b2cf5f1f3726c51a930627c2711b7192c8edbe2.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" defer></script><script>window.config={"autoBookmark":true,"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"enablePWA":true,"lightgallery":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"pangu":{"enable":true,"selector":"article"},"search":{"highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50},"siteTime":"2018-02-06T11:15:22+08:00","version":"v0.3.16-f66dc32e"};</script><script src="/js/theme.min.0daa504da430d5723626cca1801d04ac125316adbe008489bd4ebe37d7bd9a01.js" integrity="sha256-DapQTaQw1XI2JsyhgB0ErBJTFq2+AISJvU6+N9e9mgE=" defer></script></body>
+</html>
