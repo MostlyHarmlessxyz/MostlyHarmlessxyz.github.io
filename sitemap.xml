@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://xyzyx.me/posts/hello-world/</loc>
-    <lastmod>2024-11-30T23:23:55+08:00</lastmod>
+    <loc>https://xyzyx.me/posts/20250103-%E7%BB%93%E6%9D%9F%E5%BC%80%E5%A7%8B/</loc>
+    <lastmod>2025-01-03T23:07:21+08:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xyzyx.me/</loc>
-    <lastmod>2024-12-01T09:15:47+08:00</lastmod>
+    <lastmod>2025-01-03T23:07:21+08:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://xyzyx.me/posts/</loc>
-    <lastmod>2024-12-01T09:15:47+08:00</lastmod>
+    <lastmod>2025-01-03T23:07:21+08:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://xyzyx.me/posts/hello-world/</loc>
+    <lastmod>2024-11-30T23:23:55+08:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
