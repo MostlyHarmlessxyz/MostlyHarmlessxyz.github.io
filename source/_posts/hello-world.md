@@ -1,38 +1,114 @@
 ---
 title: Hello World
 ---
-Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
+我又有一些碎碎念。
 
-## Quick Start
+希望在此写下。
 
-### Create a new post
+如果你看到了，`请听我 大声唱`
 
-``` bash
-$ hexo new "My New Post"
-```
 
-More info: [Writing](https://hexo.io/docs/writing.html)
 
-### Run server
-
-``` bash
-$ hexo server
-```
-
-More info: [Server](https://hexo.io/docs/server.html)
-
-### Generate static files
-
-``` bash
-$ hexo generate
-```
-
-More info: [Generating](https://hexo.io/docs/generating.html)
-
-### Deploy to remote sites
-
-``` bash
-$ hexo deploy
-```
-
-More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
+> 平凡城市 平淡故事 平静不成诗
+>
+> 光阴太短 悲伤太浅 不够酿成酒
+>
+> 仄仄平平 脚步匆匆 春夏又秋冬
+>
+> 故事讲给我 我们写首歌 这应该还足够
+>
+> 你讲 我唱 你来和
+>
+> 上山岗 上山岗
+>
+> 请听我 大声唱
+>
+> 唱太阳 唱月亮
+>
+> 唱时光 唱成长
+>
+> 不孤单 不孤单
+>
+> 因为我们都一样
+>
+> 愿这歌声能让你坚强
+>
+> 朋友朋友好朋友
+>
+> 上山岗
+>
+> 请同我 大声唱
+>
+> 唱风霜 唱春光
+>
+> 唱悲伤 唱希望
+>
+> 歌声绕 歌声绕
+>
+> 踏过天高山水长
+>
+> 不做翅膀 也做个肩膀
+>
+> 
+>
+> 后来有一天 能再见面 不知是何年
+>
+> 回忆太重 伤痕太痛 不希望你懂
+>
+> 当岁月将 我们分割 渡不同的河
+>
+> 话说不出口 就来唱首歌 这应该会有用
+>
+> 歌声带你想起来
+>
+> 上山岗 上山岗
+>
+> 请听我 大声唱
+>
+> 唱太阳 唱月亮
+>
+> 唱时光 唱成长
+>
+> 想起来 想起来 我们是否还一样
+>
+> 坚强过后 更愿你柔软
+>
+> 朋友朋友好朋友
+>
+> 上山岗
+>
+> 请同我 大声唱
+>
+> 唱风霜 唱春光
+>
+> 唱悲伤 唱希望
+>
+> 想起来 想起来 还有天高山水长
+>
+> 你是翅膀也是我肩膀
+>
+> 上山岗 上山岗
+>
+> 轻轻唱 轻轻唱
+>
+> 唱时光 唱时光
+>
+> 唱悲伤 唱悲伤
+>
+> 不孤单 不孤单 就像流水绕青山
+>
+> 千山踏遍 愿你柔软
+>
+> 朋友朋友好朋友
+>
+> 上山岗
+>
+> 请同我 大声唱
+>
+> 唱风霜 唱春光
+>
+> 唱悲伤 唱希望
+>
+> 想起来 想起来 还有天高山水长
+>
+> 你是翅膀也是我肩膀
