@@ -1,0 +1,188 @@
+# ===============================================================
+# Next 主题配置文件
+# 官方文档: https://theme-next.js.org/
+# ===============================================================
+
+# 主题方案选择
+# Schemes: Muse | Mist | Pisces | Gemini
+scheme: Gemini
+
+# 网站图标
+favicon:
+  small: /images/favicon-16x16-next.png
+  medium: /images/favicon-32x32-next.png
+  apple_touch_icon: /images/apple-touch-icon-next.png
+
+# 顶部菜单
+menu:
+  home: / || fa fa-home
+  about: /about/ || fa fa-user
+  tags: /tags/ || fa fa-tags
+  categories: /categories/ || fa fa-th
+  archives: /archives/ || fa fa-archive
+  # schedule: /schedule/ || fa fa-calendar
+  # sitemap: /sitemap.xml || fa fa-sitemap
+  # commonweal: /404/ || fa fa-heartbeat
+
+# 菜单项图标设置
+menu_settings:
+  icons: true
+  badges: false
+
+# 侧栏设置
+sidebar:
+  # 侧栏位置: left | right
+  position: left
+  # 侧栏显示: post | always | hide | remove
+  display: post
+  # 侧栏填充: hide | show
+  padding: 18
+  # 侧栏偏移量
+  offset: 12
+
+# 头像设置
+avatar:
+  # 头像路径
+  url: /images/avatar.gif
+  # 头像圆角
+  rounded: false
+  # 头像透明度
+  opacity: 1
+  # 头像旋转动画
+  rotated: false
+
+# 社交链接
+social:
+  GitHub: https://github.com/MostlyHarmlessxyz || fab fa-github
+  E-Mail: mailto:geek520170@gmail.com || fa fa-envelope
+  # Weibo: https://weibo.com/yourname || fab fa-weibo
+  # Twitter: https://twitter.com/yourname || fab fa-twitter
+  # FB Page: https://www.facebook.com/yourname || fab fa-facebook
+  # StackOverflow: https://stackoverflow.com/yourname || fab fa-stack-overflow
+  # YouTube: https://youtube.com/yourname || fab fa-youtube
+  # Instagram: https://instagram.com/yourname || fab fa-instagram
+  # Skype: skype:yourname?call|chat || fab fa-skype
+
+# 社交链接图标设置
+social_icons:
+  enable: true
+  icons_only: false
+  transition: false
+
+
+# 文章目录 (TOC)
+toc:
+  enable: true
+  # 自动添加列表编号
+  number: true
+  # 自动换行
+  wrap: false
+  # 展开深度
+  expand_all: false
+  # 最大深度
+  max_depth: 6
+
+# 阅读进度
+reading_progress:
+  enable: true
+  # 开始滚动百分比
+  start_at: 0
+  # 结束滚动百分比
+  end_at: 80
+  # 进度条高度
+  height: 3px
+  # 进度条颜色
+  color: "#37c6c0"
+
+# 代码块设置
+codeblock:
+  # 代码高亮主题
+  # 可选: normal | night | night eighties | night blue | night bright | solarized | solarized dark | galactic
+  theme:
+    light: default
+    dark: stackoverflow-dark
+  # 显示复制按钮
+  copy_button:
+    enable: true
+    # 显示结果
+    show_result: true
+    # 复制成功样式: default | flat | mac
+    style:
+
+# 返回顶部按钮
+back2top:
+  enable: true
+  # 在侧栏显示
+  sidebar: false
+  # 显示滚动百分比
+  scrollpercent: false
+
+
+# GitHub Banner
+github_banner:
+  enable: false
+  permalink: https://github.com/MostlyHarmlessxyz
+  title: Follow me on GitHub
+
+# 字体设置
+font:
+  enable: false
+  # 外部字体库: https://fonts.googleapis.com (IPv4) | https://fonts.proxy.ustclug.org (IPv4 fallback) | /fonts (local)
+  host: https://fonts.googleapis.com
+  # 全局字体
+  global:
+    external: true
+    family: Lato
+    size:
+  # 标题字体 (h1, h2, h3, h4, h5, h6)
+  headings:
+    external: true
+    family:
+    size:
+  # 文章字体
+  posts:
+    external: true
+    family:
+  # 代码字体
+  codes:
+    external: true
+    family:
+
+# SEO 优化
+index_with_subtitle: false
+
+# 如果运行在子目录中，设置 url 为 'http://yoursite.com/child'，root 为 '/child/'
+# url: http://yoursite.com/child
+# root: /child/
+
+# 外观
+darkmode: false
+
+# 预连接
+preconnect: false
+
+# 文本对齐
+text_align:
+  # 可选: start | end | left | right | center | justify | justify-all | match-parent
+  desktop: justify
+  mobile: justify
+
+# 移动设备适配
+mobile_layout_economy: false
+
+# Chrome 标签页颜色
+android_chrome_color: "#222"
+
+# 自定义Logo
+custom_logo: #/uploads/custom-logo.jpg
+
+# 创意共享许可证
+creative_commons:
+  # 可选: by | by-nc | by-nc-nd | by-nc-sa | by-nd | by-sa | zero
+  license: by-nc-sa
+  # 可选: big | small
+  size: small
+  sidebar: false
+  post: false
+  # 语言: deed.zh | deed.en | deed.ja | ...
+  language: deed.zh

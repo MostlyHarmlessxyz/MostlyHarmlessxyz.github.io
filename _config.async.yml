@@ -1,0 +1,321 @@
+# Hexo Theme Async 完整配置文件
+# 文档地址：https://hexo-theme-async.imalun.com/guide/config
+
+# Open Graph 协议
+open_graph: true
+
+# 用户信息
+user:
+  name: Mostly_Harmless                   # 昵称
+  first_name: 基本                      # 名
+  last_name: 无害                      # 姓
+  email: geek520170@gmail.com         # 邮箱
+  domain: https://mostlyharmlessxyz.github.io/       # 网站域名
+  avatar: /img/avatar.jpg               # 头像路径
+  describe: 这是一个简洁优雅的博客       # 网站简介
+
+# 网站图标配置
+favicon:
+  logo: /img/favicon.svg                # 顶部 logo
+  icon16: /img/favicon-16x16.png        # 16x16 图标
+  icon32: /img/favicon-32x32.png        # 32x32 图标
+  apple_touch_icon: /img/apple-touch-icon.png # iOS 添加到桌面图标
+  webmanifest: /site.webmanifest        # 应用程序清单文件
+  visibilitychange: true                # 开启离开窗口时切换标题
+  hidden: /img/failure.ico              # 离开窗口时显示图标
+  show_text: (/≧▽≦/)咦！又好了！         # 激活窗口时显示文字
+  hide_text: (●—●)喔哟，崩溃啦！        # 离开窗口时显示文字
+
+# 主题资源配置
+assets:
+  internal_provider: local              # 主题脚本 CDN 配置 [local, unpkg, jsdelivr]
+  third_party_provider: unpkg           # 第三方插件 CDN 配置 [unpkg, jsdelivr]
+  plugin:
+    hexo_theme_async:
+      rowcss: css/plugins/bootstrap.row.css
+      typing: js/plugins/typing.js
+      search: js/plugins/local_search.js
+      danmu: js/plugins/danmu.js
+      main: js/main.js
+  icons:
+    type: font                          # 图标类型 [font, symbol]
+    css: css/plugins/font-awesome.min.css # 图标 CSS
+    js:                                 # 图标 JS（多色图标时使用）
+
+# CDN 配置
+cdn:
+  css:
+  js:
+    head:
+    base:
+    async:
+    defer:
+
+# 主题图标配置
+icons:
+  sun: far fa-sun                       # 主题切换明亮图标
+  moon: far fa-moon                     # 主题切换暗黑图标
+  play: fas fa-play                     # 首页视频播放图标
+  email: far fa-envelope                # 邮件图标
+  next: fas fa-arrow-right              # 分类卡片入口图标
+  calendar: far fa-calendar-alt         # 文章日期图标
+  clock: far fa-clock                   # 文章时间图标
+  user: far fa-user                     # 文章作者图标
+  back_top: fas fa-arrow-up             # 返回顶部图标
+  close: fas fa-times                   # 关闭图标
+  search: fas fa-search                 # 搜索图标
+  reward: fas fa-hand-holding-usd       # 打赏图标
+  toc_tag: fas fa-th-list               # 目录图标
+  read: fas fa-book-reader              # 阅读模式图标
+  arrows: fas fa-arrows-alt-h           # 单双栏切换图标
+  double_arrows: fas fa-angle-double-down # 代码折叠图标
+  copy: fas fa-copy                     # 代码复制图标
+
+# 导航栏配置
+top_bars:
+  - title: menu.home                    # 首页
+    url: /
+  - title: menu.archives                # 归档
+    url: /archives/
+  - title: 分类                         # 分类
+    url: /categories/
+  - title: 标签                         # 标签
+    url: /tags/
+  - title: menu.links                   # 友链
+    url: /links/
+  - title: menu.about                   # 关于
+    url: /about/
+
+# 横幅配置
+banner:
+  use_cover: false                      # 文章详情页使用封面图作为横幅
+  danmu:                               # 弹幕配置
+    enable: false                       # 启用弹幕
+    el: .trm-banner                     # 弹幕容器
+  default:                             # 默认横幅配置
+    type: img                          # 横幅类型 [img, slideshow, video]
+    bgurl: /img/banner.jpg             # 背景图地址
+    banner_text: Hi my new friend!     # 横幅描述
+    position: center                   # 同 CSS object-position
+    fit: cover                         # 同 CSS object-fit
+  index:                              # 首页横幅
+    banner_title: 树深时见鹿，<br>溪午不闻钟。
+    banner_text: Welcome to my blog!
+    video_url:                         # 视频地址
+  archive:                            # 归档页横幅
+    banner_title: 云间连下榻，<br>天上接行杯。
+    banner_text: The article archive
+  links:                              # 友链页横幅
+    banner_title: 莫愁前路无知己，<br>天下谁人不识君。
+    banner_text: A link to a friend's website
+  comment:                            # 评论页横幅
+    banner_title: 醉后不知天在水，<br>满船清梦压星河。
+    banner_text: The magic tree hole
+  about:                              # 关于页横幅
+    banner_title: 醉后不知天在水，<br>满船清梦压星河。
+    banner_text: About me
+
+# 侧栏配置
+sidebar:
+  typed_text_prefix: I'm               # 打字动画固定前缀
+  typed_text:                         # 打字效果切换条目
+    - a Developer
+    - a Blogger
+    - a Dreamer
+  info:                              # 侧栏信息
+    - key: sidebar.residence
+      val: Earth
+    - key: sidebar.age
+      val: 250
+    - key: Contact
+      val: geek520170@gmail.com
+  social:                            # 社交图标
+    - name: Github
+      icon: fab fa-github
+      url: https://github.com/MostlyHarmlessxyz
+
+# 关于页面配置
+about:
+  insert: none                         # 插入规则 [before, after, none]
+  title: 关于我？                        # 标题
+  introduction: 基本无害，仅此而已。在深夜碎碎念的人。 # 个人简介
+  blog: <ul class="trm-list"><li>程序：Hexo</li><li>主题：Hexo-theme-async</li></ul> # 博客信息
+  privacy: 本网站不会追踪访客行为，保护用户隐私。 # 隐私权说明
+
+# 页脚配置
+footer:
+  powered:                            # 程序驱动信息
+    enable: true                      # 启用
+  beian:                              # 备案信息
+    enable: false                     # 启用
+    icp:                              # 备案号
+  copyright_year: 2025                # 版权年份
+  live_time:                          # 运行时间
+    enable: true                      # 启用
+    prefix: footer.tips               # 计时文案
+    start_time: 01/01/2025 00:00:00   # 计时开始时间
+  custom_text:                        # 自定义文本
+
+# 打赏配置
+reward:
+  enable: false                       # 启用打赏
+  comment: 我很可爱，请给我钱            # 打赏按钮下显示文字
+  url:                                # 打赏链接
+  methods:                            # 打赏二维码图片列表
+    - name: 支付宝
+      path: /img/alipay.jpg
+    - name: 微信
+      path: /img/wechat.jpg
+
+# 文章目录配置
+toc:
+  enable: true                        # 启用目录
+  list_number: true                   # 显示编号
+  post_title: true                    # 点击文章标题打开目录
+  max_depth: 3                        # 最大深度
+  min_depth: 1                        # 最小深度
+
+# 归档页面配置
+archive:
+  type: more                          # 卡片样式 [less, more]
+
+# 版权信息配置
+creative_commons:
+  license: by-nc-sa                   # 许可证类型
+  language: deed.zh-hans              # 语言
+  post: false                         # 在每篇文章末尾显示
+  clipboard: false                    # 复制时追加版权信息
+
+# 封面图配置
+cover:
+  default: /img/default-cover.jpg     # 默认封面图
+  type: img                          # 封面类型 [img, date, random]
+
+# 上下篇文章配置
+post_pagination:
+  enable: true                        # 启用
+  type: large                         # 卡片类型 [large, small]
+
+# 图片懒加载
+lazyload:
+  enable: true                        # 启用懒加载
+
+# 文章过期提醒
+notice_outdate:
+  enable: false                       # 启用
+  style: flat                         # 样式 [simple, flat]
+  limit_day: 365                      # 过期提醒天数
+  position: top                       # 位置 [top, bottom]
+
+# 网站统计
+web_analytics:
+  enable: false                       # 启用
+  baidu:                             # 百度统计
+  google:                            # Google Analytics
+  tencent:                           # 腾讯统计
+    sid:
+    cid:
+
+# 评论系统
+comment:
+  # Twikoo 评论
+  twikoo:
+    enable: false                     # 启用 Twikoo
+    envId:                           # 腾讯云环境 ID
+    # region:                         # 环境地域
+  # Giscus 评论
+  giscus:
+    enable: false                     # 启用 Giscus
+    repo:                            # 仓库
+    repo-id:                         # 仓库 ID
+    category:                        # 分类
+    category-id:                     # 分类 ID
+    mapping: pathname                # 映射方式
+    reactions-enabled: 1             # 启用反应
+    emit-metadata: 0
+    lang: zh-CN                      # 语言
+    theme:
+      light: light
+      dark: transparent_dark
+
+# 主题模式配置
+theme:
+  switch: true                        # 主题切换按钮
+  default: style-light                # 默认模式 [style-light, style-dark, auto]
+
+# 渐进式应用
+sw: false                            # 启用 Service Worker
+
+# 字数统计
+wordcount:
+  enable: false                       # 启用
+  count: true                         # 显示字数
+  time: true                          # 显示阅读时间
+
+# 数学公式支持
+katex:
+  copy_tex: true                      # 复制公式
+  global: false                       # 全局启用
+  options: {}                         # KaTeX 选项
+
+# 搜索配置
+search:
+  enable: true                        # 启用搜索
+  type: local                         # 搜索类型 [local, engine]
+  href: "https://www.google.com/search?q=site:" # 搜索引擎地址
+  domain: https://mostlyharmlessxyz.github.io/             # 域名
+
+# Swup 页面转换
+swup: false                          # 启用 Swup
+
+# 日期格式化
+datetime_foramt:
+  post_card:                         # 文章卡片格式
+    type: date                       # 日期取值 [date, updated]
+    date: YY/MM/DD                   # 日期格式
+    time: HH:mm                      # 时间格式
+    cover_date: DD                   # 封面日期
+    cover_date2: YYYY/MM             # 封面年月
+  post_info:                         # 文章详情页格式
+    type: date
+    date: MM/DD
+    time: HH:mm
+  archive:                           # 归档页格式
+    type: date
+    date: MM/DD
+    time: HH:mm
+
+# 首页分类卡片
+categorie_card:
+  enable: true                        # 启用
+  len: 2                              # 显示数量
+  list: []                            # 固定显示分类
+
+# 右下角功能按钮
+rightside:
+  readmode: true                      # 阅读模式按钮
+  aside: true                         # 单双栏切换按钮
+
+# 破图时默认图片
+error_img:
+  flink: /img/friend_404.gif          # 友链头像破图
+  post_page: /img/404.jpg             # 文章图片破图
+
+# 代码高亮配置
+highlight:
+  theme: true                         # 启用内置配色
+  title: default                      # 代码标题样式 [mac, default]
+  copy: true                          # 复制按钮
+  lang: true                          # 显示语言
+  code_word_wrap: false               # 强制换行
+  height_limit: false                 # 代码块高度限制
+
+# 自定义模板配置
+layout:
+  path: layout                        # 模板存放目录
+
+# 404 页面配置
+not_found:
+  path: /                            # 返回路径
+  name: not_found.name               # 按钮文字
+  text: not_found.text               # 提示文案
