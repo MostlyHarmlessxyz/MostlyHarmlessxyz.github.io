@@ -1,0 +1,20 @@
+---
+import { formatDate, type BlogPost } from "../utils/posts";
+
+interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+---
+
+<article class="post-card">
+  <div class="post-meta">
+    <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+  </div>
+  <h2><a href={`/blog/${post.data.slug}/`}>{post.data.title}</a></h2>
+  <p>{post.data.description}</p>
+  <div class="tag-row" aria-label="文章标签">
+    {post.data.tags.map((tag) => <span>{tag}</span>)}
+  </div>
+</article>

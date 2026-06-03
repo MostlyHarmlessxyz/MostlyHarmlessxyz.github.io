@@ -1,0 +1,18 @@
+---
+import PostCard from "../../components/PostCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getAllPosts } from "../../utils/posts";
+
+const posts = await getAllPosts();
+---
+
+<BaseLayout title="文章" description="Mostly Harmless 博客的全部文章列表。">
+  <section class="page-heading">
+    <p class="eyebrow">Archive</p>
+    <h1>文章</h1>
+    <p>按发布时间整理的所有博客文章。</p>
+  </section>
+  <div class="post-list">
+    {posts.map((post) => <PostCard post={post} />)}
+  </div>
+</BaseLayout>

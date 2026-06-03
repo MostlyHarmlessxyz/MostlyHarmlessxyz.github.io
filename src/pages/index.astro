@@ -1,0 +1,33 @@
+---
+import PostCard from "../components/PostCard.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getAllPosts } from "../utils/posts";
+
+const posts = await getAllPosts();
+const recentPosts = posts.slice(0, 3);
+---
+
+<BaseLayout title="Mostly Harmless" description="Mostly Harmless 的个人技术博客，记录工程实践、学习笔记和长期思考。">
+  <section class="intro-section">
+    <p class="eyebrow">个人技术博客</p>
+    <h1>写给未来自己的工程笔记。</h1>
+    <p class="intro-copy">
+      这里整理 GitHub Pages、自动化部署、前端工程和学习过程中的可复用经验。文章以 Markdown
+      管理，由 GitHub Actions 构建并发布。
+    </p>
+    <div class="intro-actions">
+      <a class="button" href="/blog/">阅读文章</a>
+      <a class="button secondary" href="/about/">关于我</a>
+    </div>
+  </section>
+
+  <section class="section-block" aria-labelledby="recent-posts">
+    <div class="section-heading">
+      <h2 id="recent-posts">最新文章</h2>
+      <a href="/blog/">全部文章</a>
+    </div>
+    <div class="post-grid">
+      {recentPosts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</BaseLayout>

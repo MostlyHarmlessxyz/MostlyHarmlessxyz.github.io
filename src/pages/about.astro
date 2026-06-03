@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="关于我" description="关于 Mostly Harmless 博客和作者。">
+  <section class="article-shell">
+    <header class="article-header">
+      <p class="eyebrow">About</p>
+      <h1>关于我</h1>
+      <p>这个博客用于沉淀技术实践、学习路径和可复用的工程经验。</p>
+    </header>
+    <div class="prose">
+      <p>
+        我关注稳定、可维护的工程方案，也会记录搭建工具链时踩过的坑。相比追逐复杂架构，这里更看重能长期运行、方便回顾和便于迁移的知识组织方式。
+      </p>
+      <p>
+        当前站点使用 Astro、Markdown 内容集合和 GitHub Actions 部署到 GitHub Pages。文章源文件保存在
+        <code>src/content/blog/</code>，构建产物不会提交到主分支。
+      </p>
+    </div>
+  </section>
+</BaseLayout>

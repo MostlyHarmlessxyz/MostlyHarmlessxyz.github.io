@@ -1,0 +1,73 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  type?: "website" | "article";
+}
+
+const siteName = "Mostly Harmless";
+const { title, description, type = "website" } = Astro.props;
+const pageTitle = title === siteName ? title : `${title} | ${siteName}`;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={siteName} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline>
+      const storedTheme = localStorage.getItem("theme");
+      if (storedTheme === "light" || storedTheme === "dark") {
+        document.documentElement.dataset.theme = storedTheme;
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Mostly Harmless 首页">
+        <span class="brand-mark">MH</span>
+        <span>Mostly Harmless</span>
+      </a>
+      <nav class="site-nav" aria-label="主导航">
+        <a href="/blog/">文章</a>
+        <a href="/tags/">标签</a>
+        <a href="/about/">关于</a>
+        <a href="/rss.xml">RSS</a>
+        <button class="theme-toggle" type="button" aria-label="切换浅色或深色模式" title="切换主题">
+          <span aria-hidden="true">◐</span>
+        </button>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>© {new Date().getFullYear()} Mostly Harmless. Built with Astro and GitHub Pages.</p>
+    </footer>
+    <script is:inline>
+      const toggle = document.querySelector(".theme-toggle");
+      const root = document.documentElement;
+      const getPreferredTheme = () =>
+        window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      toggle?.addEventListener("click", () => {
+        const next = (root.dataset.theme || getPreferredTheme()) === "dark" ? "light" : "dark";
+        root.dataset.theme = next;
+        localStorage.setItem("theme", next);
+      });
+    </script>
+  </body>
+</html>

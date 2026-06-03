@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getAllPosts, getAllTags } from "../../utils/posts";
+
+const tags = getAllTags(await getAllPosts());
+---
+
+<BaseLayout title="标签" description="按标签浏览 Mostly Harmless 博客文章。">
+  <section class="page-heading">
+    <p class="eyebrow">Tags</p>
+    <h1>标签</h1>
+    <p>用主题索引文章，便于回看同一方向的笔记。</p>
+  </section>
+  <ul class="tag-cloud">
+    {
+      tags.map((tag) => (
+        <li>
+          <a href={`/tags/${tag.slug}/`}>
+            <span>{tag.name}</span>
+            <strong>{tag.count}</strong>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
