@@ -1,5 +1,5 @@
 ---
-import { slugifyTag } from "../utils/posts";
+import { tagHref } from "../utils/posts";
 
 interface Props {
   tags: string[];
@@ -13,7 +13,7 @@ const { tags } = Astro.props;
     <ul class="inline-tags" aria-label="标签">
       {tags.map((tag) => (
         <li>
-          <a href={`/tags/${slugifyTag(tag)}/`}>{tag}</a>
+          <a href={`/tags/${tagHref(tag)}/`}>{tag}</a>
         </li>
       ))}
     </ul>

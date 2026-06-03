@@ -1,4 +1,5 @@
 import mdx from "@astrojs/mdx";
+import { unified } from "@astrojs/markdown-remark";
 import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 import rehypeKatex from "rehype-katex";
@@ -8,8 +9,10 @@ export default defineConfig({
   site: "https://mostlyharmlessxyz.github.io",
   integrations: [mdx(), sitemap()],
   markdown: {
-    remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex],
+    processor: unified({
+      remarkPlugins: [remarkMath],
+      rehypePlugins: [rehypeKatex]
+    }),
     shikiConfig: {
       theme: "github-dark-dimmed",
       wrap: true

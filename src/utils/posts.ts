@@ -22,13 +22,15 @@ export function getAllTags(posts: BlogPost[]) {
 }
 
 export function slugifyTag(tag: string) {
-  return encodeURIComponent(
-    tag
-      .trim()
-      .toLowerCase()
-      .replace(/[\/\\]+/g, "-")
-      .replace(/\s+/g, "-")
-  );
+  return tag
+    .trim()
+    .toLowerCase()
+    .replace(/[\/\\]+/g, "-")
+    .replace(/\s+/g, "-");
+}
+
+export function tagHref(tag: string) {
+  return encodeURIComponent(slugifyTag(tag));
 }
 
 export function formatDate(date: Date) {

@@ -15,7 +15,7 @@ const tags = getAllTags(await getAllPosts());
     {
       tags.map((tag) => (
         <li>
-          <a href={`/tags/${tag.slug}/`}>
+          <a href={`/tags/${encodeURIComponent(tag.slug)}/`}>
             <span>{tag.name}</span>
             <strong>{tag.count}</strong>
           </a>

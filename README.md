@@ -4,6 +4,12 @@
 
 ## 本地开发
 
+建议使用 Node.js 22 或更高版本。本仓库包含 `mise.toml`，如果本机安装了 mise，可以在仓库目录运行：
+
+```bash
+mise install
+```
+
 ```bash
 npm ci
 npm run dev
