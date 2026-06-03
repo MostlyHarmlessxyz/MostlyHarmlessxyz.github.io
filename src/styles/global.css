@@ -360,6 +360,13 @@ h3 {
 
 .prose p {
   margin: 0 0 1.2rem;
+  text-indent: 2em;
+}
+
+.prose li p,
+.prose blockquote p,
+.prose .katex-display {
+  text-indent: 0;
 }
 
 .prose ul,
