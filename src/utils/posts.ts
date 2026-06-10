@@ -12,13 +12,17 @@ export async function getAllPosts() {
 export function getAllTags(posts: BlogPost[]) {
   const counts = new Map<string, number>();
   for (const post of posts) {
-    for (const tag of post.data.tags) {
+    for (const tag of getPostTags(post.data.tags)) {
       counts.set(tag, (counts.get(tag) ?? 0) + 1);
     }
   }
   return [...counts.entries()]
     .map(([name, count]) => ({ name, count, slug: slugifyTag(name) }))
     .sort((a, b) => a.name.localeCompare(b.name, "zh-CN"));
+}
+
+export function getPostTags(tags: string[]) {
+  return tags.map((tag) => tag.trim()).filter((tag) => slugifyTag(tag));
 }
 
 export function slugifyTag(tag: string) {

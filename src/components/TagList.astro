@@ -1,11 +1,11 @@
 ---
-import { tagHref } from "../utils/posts";
+import { getPostTags, tagHref } from "../utils/posts";
 
 interface Props {
   tags: string[];
 }
 
-const { tags } = Astro.props;
+const tags = getPostTags(Astro.props.tags);
 ---
 
 {

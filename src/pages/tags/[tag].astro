@@ -1,13 +1,13 @@
 ---
 import PostCard from "../../components/PostCard.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getAllPosts, getAllTags, slugifyTag } from "../../utils/posts";
+import { getAllPosts, getAllTags, getPostTags, slugifyTag } from "../../utils/posts";
 
 export async function getStaticPaths() {
   const posts = await getAllPosts();
   return getAllTags(posts).map((tag) => ({
     params: { tag: tag.slug },
-    props: { tag: tag.name, posts: posts.filter((post) => post.data.tags.some((item) => slugifyTag(item) === tag.slug)) }
+    props: { tag: tag.name, posts: posts.filter((post) => getPostTags(post.data.tags).some((item) => slugifyTag(item) === tag.slug)) }
   }));
 }
 

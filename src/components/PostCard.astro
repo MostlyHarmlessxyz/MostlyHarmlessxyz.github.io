@@ -1,11 +1,12 @@
 ---
-import { formatDate, type BlogPost } from "../utils/posts";
+import { formatDate, getPostTags, type BlogPost } from "../utils/posts";
 
 interface Props {
   post: BlogPost;
 }
 
 const { post } = Astro.props;
+const tags = getPostTags(post.data.tags);
 ---
 
 <article class="post-card">
@@ -14,7 +15,9 @@ const { post } = Astro.props;
   </div>
   <h2><a href={`/blog/${post.data.slug}/`}>{post.data.title}</a></h2>
   <p>{post.data.description}</p>
-  <div class="tag-row" aria-label="文章标签">
-    {post.data.tags.map((tag) => <span>{tag}</span>)}
-  </div>
+  {tags.length > 0 && (
+    <div class="tag-row" aria-label="文章标签">
+      {tags.map((tag) => <span>{tag}</span>)}
+    </div>
+  )}
 </article>

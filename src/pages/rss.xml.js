@@ -1,5 +1,5 @@
 import rss from "@astrojs/rss";
-import { getAllPosts } from "../utils/posts";
+import { getAllPosts, getPostTags } from "../utils/posts";
 
 export async function GET(context) {
   const posts = await getAllPosts();
@@ -13,7 +13,7 @@ export async function GET(context) {
       description: post.data.description,
       pubDate: post.data.pubDate,
       link: `/blog/${post.data.slug}/`,
-      categories: post.data.tags
+      categories: getPostTags(post.data.tags)
     })),
     customData: "<language>zh-CN</language>"
   });
