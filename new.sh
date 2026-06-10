@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 echo -n "输入文章标题 > "
 read title
