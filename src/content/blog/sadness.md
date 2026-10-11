@@ -22,7 +22,7 @@ slug: "sadness"
 
 
 
-​	Teamspeak3 搭建好了： IP 104.223.75.177 ; passwd: liuzihan123
+​ Teamspeak3 搭建好了（连接信息已移除）。
 
 ​	可能需要挂节点才能访问，看看什么时候弄个国内的小鸡搭建一个国内可以稳定访问的吧。
 
